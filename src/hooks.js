@@ -3,7 +3,7 @@ onresize = function(){
         mh = innerHeight,
 
         ar = mw / mh, // available ratio
-        br = 1, // base ratio
+        br = 1.2, // base ratio
         w,
         h,
         s = document.querySelector('#in').style;

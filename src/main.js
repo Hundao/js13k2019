@@ -1,10 +1,8 @@
 
 const main = () => {
-    console.log('main execute')
-    const game = new Game()
-
     onresize()
-    game.execute()
+    console.log('main execute')
+    execute()
 }
 
 window.onload = main
