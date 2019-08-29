@@ -3,6 +3,10 @@
 
 let running = () => {
     drawBackground()
+    drawGround()
+    drawMain()
+
+    move(hero)
 }
 
 function execute(){
