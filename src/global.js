@@ -16,5 +16,13 @@ let
      y: 400,
      vy: 0,
      vx: 0
+ },
+
+ groups={
+
+ },
+ 
+ contacts={
+     
  }
 ; 
