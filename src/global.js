@@ -18,11 +18,8 @@ let
      vx: 0
  },
 
- groups={
-
- },
+ groups={},
  
- contacts={
-     
- }
+ difGupContacts={},
+ sameGupContacts={}
 ; 

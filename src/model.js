@@ -18,7 +18,8 @@ class ContactPlan{
         }
 
         this.isContact = false
-
+        this.element1Index = 0
+        this.element2Index = 0
     }
 }
 
