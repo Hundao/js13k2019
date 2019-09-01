@@ -1,3 +1,22 @@
+let makeParallelBound = (group, contactPlanes, dis) => {
+
+    for (let key in contactPlanes) {
+        let contactPlane = contactPlanes[key]
+        let e1 = group.elements[contactPlane.element1Index]
+        let e2 = group.elements[contactPlane.element2Index]
+
+        if (e1.lt.x - dis > e2.rd.x + dis || e2.lt.x - dis > e1.rd.x) {
+            continue
+        }
+
+        if (e1.lt.y - dis > e1.rd.y + dis || e2.lt.y - dis > e1.rd.y + dis) {
+            continue
+        }
+
+        contactPlane.isBound = true
+    }
+
+}
 
 
 let mainFlow = () => {
@@ -69,7 +88,7 @@ let handleContact = () => {
         let group = groups[contact.group1Index]
 
         for (let i = 0; i < group.elements.length; i++) {
-            for (let j = 1; j < group.elements.length; j++) {
+            for (let j = i + 1; j < group.elements.length; j++) {
                 let e1 = group.elements[i]
                 let e2 = group.elements[j]
 
@@ -84,12 +103,12 @@ let _updateContactPlane = (e1, e2, contactPlane) => {
 
     if (e1.lt.x > e2.rd.x || e2.lt.x > e1.rd.x) {
         contactPlane.isContact = false
-        continue
+        if(!contactPlane.isBound) return
     }
 
     if (e1.lt.y > e2.rd.y || e2.lt.y > e1.rd.y) {
         contactPlane.isContact = false
-        continue
+        if(!contactPlane.isBound) return
     }
 
     let d = distance(e1.pos, e2.pos)
@@ -106,6 +125,8 @@ let _updateContactPlane = (e1, e2, contactPlane) => {
     contactPlane.gc = overlapX * overlapY
     contactPlane.nc = nc
     contactPlane.f = scale(contact.kn, dot(contactPlane.gc, contactPlane.nc))
+    contactPlane.rV = minus(e2.v, e1.v)
+    contactPlane.inD = scale(dt, contatcPlane.rV)
 
 }
 

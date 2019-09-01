@@ -1,54 +1,48 @@
+contact.contactPlanes[key] = new ContactPlane
 class ContactPlan{
-    constructor(){
+    constructor(e1Index, e2Index){
         this.nc= {
             x:0,
             y:0
         }
 
         this.gc = 0
-        // not sure for what
-        // this.rv = {
-        //     x:0,
-        //     y:0
-        // }
 
-        this.f = {
-            x:0,
-            y:0
-        }
+        this.f = {x:0,y:0}
+
+        this.rV = {x:0, y:0}
+        this.inD = {x:0, y:0}
 
         this.isContact = false
-        this.element1Index = 0
-        this.element2Index = 0
+        this.isBound = false
+        this.element1Index = e1Index
+        this.element2Index = e2Index
     }
 }
 
 
 class Rectangle{
-    constructor(){
-        this.id = 0
-        this.mass = 0
-        this.invm = 0
+    constructor(id, x, y, w, h, density){
+        this.id = id
+        this.mass = w * h * density
+        this.invm = 1 / this.mass
 
-        this.pos = {
-            x:0,
-            y:0
-        }
+        this.pos = {x,y}
+
+        let halfW = w * 0.5
+        let halfH = h * 0.5
 
         this.lt = {
-            x: 0,
-            y: 0
+            x: x - halfW,
+            y: x - halfH
         }
 
         this.rd ={
-            x:0,
-            y:0
+            x: x + halfW,
+            y: x + halfH
         }
 
-        this.len = {
-            w:0,
-            h:0
-        }
+        this.len = {w,h}
 
         this.f = {
             x:0,
@@ -102,12 +96,11 @@ class Circle{
 }
 
 class Contact{
-    constructor(){
-        this.kn = 0
-        this.bn = 0
-        this.pkn = 0
-        this.group1Index = ''
-        this.group2Index = ''
+    constructor(group1Index, group2Index, kn, pkn){
+        this.kn = kn
+        this.pkn = pkn
+        this.group1Index = group1Index
+        this.group2Index = group2Index
         this.contactPlanes={
 
         }
@@ -115,10 +108,11 @@ class Contact{
 }
 
 class Group{
-    constructor(){
-        this.isRigid = true
-        this.damp = 0
-        this.density = 0
-        this.name = ''
+    constructor(name, density, damp, isRigids){
+        this.isRigid = isRigids
+        this.damp = damp
+        this.density = density
+        this.name = name
+        this.elements = []
     }
 }
