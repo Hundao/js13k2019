@@ -1,21 +1,30 @@
 
-let jump = function(){
+// jump
+actions['c'] = function(){
     let group = groups['hero']
     group.elements.forEach((e)=>{
-        e.f.y -= 1e12
+        e.f.y -= 1e11   
     })
 }
-
-let font = function(){
+ 
+actions['right'] = function(){
     let group = groups['hero']
     group.elements.forEach((e)=>{
         e.f.x += 1e11
     })
 }
 
-let back = function(){
+actions['left'] = function(){
     let group = groups['hero']
     group.elements.forEach((e)=>{
         e.f.x -= 1e11
+    })
+}
+
+actions['down'] = function(){
+
+    let group = groups['hero']
+    group.elements.forEach((e)=>{
+        e.f.y += 1e11
     })
 }

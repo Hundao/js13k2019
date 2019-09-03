@@ -48,7 +48,6 @@ let verlet = () => {
             let dmpInfluence = 1- group.damp
             e.v.x += (e.f.x * e.invm) * dmpInfluence  * dt
             e.v.y += (e.f.y * e.invm + gravity * e.mass) * dmpInfluence * dt
-            //  console.log(e.v.y, e.f.y)
 
             let disX = e.v.x * dt
             let disY = e.v.y * dt
