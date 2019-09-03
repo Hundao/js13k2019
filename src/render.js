@@ -7,11 +7,30 @@ let drawBackground = () =>{
 
 let drawGround = () => {
     ctx.fillStyle = '#665753'
-    ctx.fillRect(0, h-groundHeight, w, 2)
+    let group = groups['ground']
+
+    group.elements.forEach((e)=>{
+        ctx.fillRect(
+            e.lt.x,
+            e.lt.y,
+            e.len.w,
+            e.len.h
+        )
+    })
 
 }
 
-let drawMain = () => {
-    ctx.fillStyle = '#8fab63'
-    ctx.fillRect(hero.x, hero.y, hero.w, hero.h)
+let drawHero = () => {
+    ctx.fillStyle = 'blue'
+    
+    let group = groups['hero']
+
+    group.elements.forEach((e)=>{
+        ctx.fillRect(
+            e.lt.x,
+            e.lt.y,
+            e.len.w,
+            e.len.h
+        )
+    })
 }

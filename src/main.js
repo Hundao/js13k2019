@@ -1,7 +1,10 @@
 
 const main = () => {
     onresize()
-    console.log('main execute')
+    initHero()
+    initGround()
+
+
     execute()
 }
 

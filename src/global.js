@@ -4,22 +4,20 @@ let
  h = 640,
 
  keys = {},
- gravity = 1,
- dt = 1,
+ gravity = 9.81,
+ dt = 0.001,
 
  groundHeight = 200,
-
- hero={
-     w: 10,
-     h: 10,
-     x: 10,
-     y: 400,
-     vy: 0,
-     vx: 0
- },
 
  groups={},
  
  difGupContacts={},
- sameGupContacts={}
+ sameGupContacts={},
+
+ bound = {
+    uX: 1000,
+    uY: 1000,
+    lX:0,
+    lY:0
+ }
 ; 

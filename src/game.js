@@ -4,12 +4,20 @@
 let running = () => {
     drawBackground()
     drawGround()
-    drawMain()
+    drawHero()
 
-    move(hero)
+    for(let i = 0 ; i < 100; i ++){
+        mainFlow()
+    }
 }
 
 function execute(){
     running();
     requestAnimationFrame(execute)
+}
+
+let helper = (num) => {
+    for(let i = 0 ; i < num; i++){
+        mainFlow()
+    }
 }

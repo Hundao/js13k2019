@@ -1,5 +1,5 @@
-contact.contactPlanes[key] = new ContactPlane
-class ContactPlan{
+
+class ContactPlane{
     constructor(e1Index, e2Index){
         this.nc= {
             x:0,
@@ -22,24 +22,24 @@ class ContactPlan{
 
 
 class Rectangle{
-    constructor(id, x, y, w, h, density){
+    constructor(id, ltx, lty, w, h, density){
         this.id = id
         this.mass = w * h * density
         this.invm = 1 / this.mass
 
-        this.pos = {x,y}
-
-        let halfW = w * 0.5
-        let halfH = h * 0.5
+        this.pos = {
+            x:ltx + w*0.5,
+            y:lty + h*0.5
+        }
 
         this.lt = {
-            x: x - halfW,
-            y: x - halfH
+            x: ltx,
+            y: lty
         }
 
         this.rd ={
-            x: x + halfW,
-            y: x + halfH
+            x: ltx + w,
+            y: lty + h
         }
 
         this.len = {w,h}
