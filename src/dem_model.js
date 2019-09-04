@@ -114,5 +114,6 @@ class Group{
         this.density = density
         this.name = name
         this.elements = []
+        this.bc = {x:0, y:0}
     }
 }

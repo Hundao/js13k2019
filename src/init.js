@@ -5,9 +5,11 @@ let initFun = ()=>{
 
 }
 
+
+
 let initHero = () =>{
     let group = new Group('hero', 100, 0.999, false)
-    let contact = new Contact('hero', 'hero', 10000, 1000)
+    let contact = new Contact('hero', 'hero', 1e7, 1e7)
 
     group.elements.push(
         // new Rectangle(0, 50, 50, 10, 10, 55),
@@ -17,9 +19,14 @@ let initHero = () =>{
         // new Rectangle(4, 70, 60, 10, 10, 55),
         // new Rectangle(5, 50, 70, 10, 10, 55),
         // new Rectangle(6, 60, 70, 10, 10, 55),
-        // new Rectangle(7, 70, 70, 10, 10, 55)
-        new Rectangle(0, 50, 400, 10, 10, 55)
+        // new Rectangle(7, 70, 70, 10, 10, 55),
+        // new Rectangle(0, 50, 400, 10, 10, 55),
+        new Rectangle(0, 300, 400, 10, 10, 55)
         )   
+
+    // cor.forEach((e, index)=>{
+    //     group.elements.push(new Rectangle(index, e[0], e[1],10 ,10,55))
+    // })
 
     for(let i = 0; i < group.elements.length; i++){
         for(let j = i + 1; j < group.elements.length; j++){
@@ -30,13 +37,14 @@ let initHero = () =>{
 
     groups['hero'] = group
     sameGupContacts['hero-hero'] = contact
-    // makeParallelBound(group, contact.contactPlanes, 1)
+    makeParallelBound(group, contact.contactPlanes, 10)
 }
 
 initGround = () => {
     let group = new Group('ground', 0, 0, true)
     group.elements.push(
-        new Rectangle(0, 0, 600, 2000, 10000, 9999)
+        // new Rectangle(0, 0, 600, 2000, 10000, 9999),
+        new Rectangle(1, 0, 0, 200, h, 9999)
     )
 
     contact = new Contact('hero', 'ground', 10000000, 100)
@@ -51,3 +59,5 @@ initGround = () => {
     difGupContacts['ground-hero'] = contact
     groups['ground'] = group
 }
+
+

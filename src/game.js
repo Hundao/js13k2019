@@ -19,7 +19,7 @@ function execute(){
 }
 
 let handleControl = () =>{
-    for(let key in controlKeys){
+    for(let key in controlKeys){     
         if(controlKeys[key]){
             if(actions[key]){
                 actions[key]()

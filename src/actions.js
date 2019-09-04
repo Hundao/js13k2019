@@ -28,3 +28,12 @@ actions['down'] = function(){
         e.f.y += 1e11
     })
 }
+
+actions['up'] = function(){
+
+    let group = groups['hero']
+    group.elements.forEach((e)=>{
+        e.f.y -= 1.5e10
+    })
+}
+
