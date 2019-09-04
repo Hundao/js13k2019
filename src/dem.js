@@ -30,6 +30,9 @@ let mainFlow = () => {
     // F -> A -> V -> X
     verlet()
 
+    // update hero's center
+    updateBc()
+
     // Reset F 
     resetForce()
 }
@@ -212,8 +215,11 @@ let resetForce = () => {
     }
 }
 
-let updateBc = (group) => {
+let updateBc = () => {
+
+    let group = groups['hero']
     let tx = 0, ty = 0
+
 
     for (let i in group.elements) {
         tx += group.elements[i].pos.x
@@ -222,4 +228,17 @@ let updateBc = (group) => {
 
     group.bc.x = tx / group.elements.length
     group.bc.y = ty / group.elements.length
+
+
+    let lower = group.bc.x - w * 0.5
+    let upper = group.bc.x + w * 0.5
+
+    if(lower > 0){
+        if(upper < mapw){   
+            vx = lower
+        }
+    }
+    else{
+        vx = 0
+    }
 }

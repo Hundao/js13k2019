@@ -43,8 +43,10 @@ let initHero = () =>{
 initGround = () => {
     let group = new Group('ground', 0, 0, true)
     group.elements.push(
-        // new Rectangle(0, 0, 600, 2000, 10000, 9999),
-        new Rectangle(1, 0, 0, 200, h, 9999)
+        new Rectangle(0, 0, 600, 2000, 10000, 9999),
+        new Rectangle(1, 0, 0, 200, h, 9999),
+        new Rectangle(2, 1200, 100, 1200, 1200, 9999),
+        new Rectangle(3, 2200, 400, 800, 200, 9999)
     )
 
     contact = new Contact('hero', 'ground', 10000000, 100)

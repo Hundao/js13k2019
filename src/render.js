@@ -11,7 +11,7 @@ let drawGround = () => {
 
     group.elements.forEach((e)=>{
         ctx.fillRect(
-            e.lt.x,
+            e.lt.x - vx,
             e.lt.y,
             e.len.w,
             e.len.h
@@ -27,7 +27,7 @@ let drawHero = () => {
 
     group.elements.forEach((e)=>{
         ctx.fillRect(
-            e.lt.x,
+            e.lt.x - vx,
             e.lt.y,
             e.len.w,
             e.len.h
