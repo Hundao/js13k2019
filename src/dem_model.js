@@ -48,16 +48,6 @@ class Rectangle{
             x:0,
             y:0
         }
-        
-        this.pf = {
-            x:0,
-            y:0
-        }
-        
-        this.a = {
-            x:0,
-            y:0
-        }
 
         this.v = {
             x:0,
@@ -115,5 +105,6 @@ class Group{
         this.name = name
         this.elements = []
         this.bc = {x:0, y:0}
+        this.snapshots = []
     }
 }

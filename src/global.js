@@ -5,12 +5,14 @@ let
 
     vx = 0,
     mapw = 3000,
+    running = null,
 
     keys = {},
     gravity = 9.81,
     dt = 0.001,
     controlKeys = {},
     actions = {},
+    antiActions = {},
     groundHeight = 200,
 
     groups = {},
@@ -24,4 +26,4 @@ let
         lX: 0,
         lY: 0
     }
-    ; 
+; 

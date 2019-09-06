@@ -19,7 +19,7 @@ let makeParallelBound = (group, contactPlanes, dis) => {
 }
 
 
-let mainFlow = () => {
+let demStep = () => {
 
     // Contact Detection & Update Contact Plane
     handleContact()

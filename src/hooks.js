@@ -1,4 +1,4 @@
-onresize = function(){
+onresize = function () {
     var mw = innerWidth,
         mh = innerHeight,
 
@@ -8,10 +8,10 @@ onresize = function(){
         h,
         s = document.querySelector('#in').style;
 
-    if(ar <= br){
+    if (ar <= br) {
         w = mw;
         h = w / br;
-    }else{
+    } else {
         h = mh;
         w = h * br;
     }
@@ -20,8 +20,8 @@ onresize = function(){
     s.height = h + 'px';
 }
 
-onkeydown = function(e){
-    switch(e.keyCode){
+onkeydown = function (e) {
+    switch (e.keyCode) {
         case 38:
             controlKeys['up'] = true
             break;
@@ -37,11 +37,20 @@ onkeydown = function(e){
         case 67:
             controlKeys['c'] = true
             break;
+        case 81:
+            controlKeys['q'] = true;
+            break;
+        case 87:
+            controlKeys['w'] = true;
+            break;
+        case 69:
+            controlKeys['e'] = true;
+            break;
     }
 }
 
-onkeyup = function(e){
-    switch(e.keyCode){
+onkeyup = function (e) {
+    switch (e.keyCode) {
         case 38:
             controlKeys['up'] = false
             break;
@@ -56,6 +65,15 @@ onkeyup = function(e){
             break;
         case 67:
             controlKeys['c'] = false
+            break;
+        case 81:
+            controlKeys['q'] = false
+            break;
+        case 87:
+            controlKeys['w'] = false;
+            break;
+        case 69:
+            controlKeys['e'] = false;
             break;
     }
 }

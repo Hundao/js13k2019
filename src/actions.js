@@ -37,3 +37,11 @@ actions['up'] = function(){
     })
 }
 
+actions['q'] = function(){
+    running = heroTimeBack
+}
+
+antiActions['q'] = function(){
+    console.log('anti action q launch')
+    running = gaming
+}
