@@ -63,12 +63,15 @@ let heroTimeBack = () => {
 
     let group = groups['hero']
 
-    if (group.snapshots.length > 0) {
-        _copyState(group, true)
-        group.snapshots.pop()
-    }else{
-        console.log('snapshot is no more')
+    for (let i = 0; i < 2; i++) {
+        if (group.snapshots.length > 0) {
+            _copyState(group, true)
+            group.snapshots.pop()
+        } else {
+            console.log('snapshot is no more')
+        }
     }
+
 
     if (controlKeys['q'] === false) {
         running = gaming
@@ -76,7 +79,7 @@ let heroTimeBack = () => {
 
 }
 
-let enemyTimeBack = () =>{
+let enemyTimeBack = () => {
     drawBackground()
     drawGround()
     drawEnemy()
@@ -85,11 +88,13 @@ let enemyTimeBack = () =>{
 
     let group = groups['enemy']
 
-    if (group.snapshots.length > 0) {
-        _copyState(group)
-        group.snapshots.pop()
-    }else{
-        console.log('snapshot is no more')
+    for (let i = 0; i < 2; i++) {
+        if (group.snapshots.length > 0) {
+            _copyState(group)
+            group.snapshots.pop()
+        } else {
+            console.log('snapshot is no more')
+        }
     }
 
     if (controlKeys['w'] === false) {
@@ -113,8 +118,9 @@ let _copyState = (group, move = false) => {
         e.v[1] = snapshot.elements[i].v[1]
     }
 
-    if(move){
+    if (move) {
         vx = snapshot.vx
     }
-        
+
+
 }

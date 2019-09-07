@@ -50,7 +50,7 @@ let drawEnemy = () => {
 
 let drawBackEffect = (color1, color2) => {
 
-    let grd = ctx.createRadialGradient(w *0.5, h *0.5, 250, w *0.5, h *0.5, 450)
+    let grd = ctx.createRadialGradient(w * 0.5, h * 0.5, 250, w * 0.5, h * 0.5, 450)
     // grd.addColorStop(0, 'rgb(63, 64, 61, 0.1');
     // grd.addColorStop(1, 'rgb(227, 32, 64, 1')
     grd.addColorStop(0, color1);

@@ -86,6 +86,14 @@ let handleContact = () => {
                 _updateContactPlane(e1, e2, contactPlane, contact)
             }
         }
+
+        if(contact.group1Index === 'hero' || contact.group2Index === 'hero'){
+            for(let c in contact.contactPlanes){
+                if(contact.contactPlanes[c].isContact){
+                    groups['hero'].canJump = true
+                }
+            }
+        }
     }
 
     for (let key in sameGupContacts) {
@@ -122,26 +130,6 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
         if (nc[0] === 0 && nc[1] === 0) {
             nc = [1, 0]
         }
-
-        let ncx = Math.abs(nc[0])
-        let ncy = Math.abs(nc[1])
-
-        // if (ncx > ncy) {
-        //     if (nc[0] > 0) {
-        //         nc = [1, 0]
-        //     }
-        //     else {
-        //         nc = [-1, 0]
-        //     }
-        // }
-        // else {
-        //     if (nc[1] > 0) {
-        //         nc = [0, 1]
-        //     } else {
-        //         nc = [0, -1]
-        //     }
-        // }
-
 
         let maxX = Math.max(e1.lt[0], e1.rd[0], e2.lt[0], e2.rd[0])
         let minX = Math.min(e1.lt[0], e1.rd[0], e2.lt[0], e2.rd[0])

@@ -21,7 +21,10 @@ let initHero = () => {
         // new Rectangle(6, 60, 70, 10, 10, 55),
         // new Rectangle(7, 70, 70, 10, 10, 55),
         // new Rectangle(0, 50, 400, 10, 10, 55),
-        new Rectangle(0, 300, 400, 10, 10, 0, 0, 55)
+        // new Rectangle(0, 300, 400, 10, 10, 0, 0, 55),
+        // new Rectangle(1, 310, 400, 10, 10, 0, 0, 55),
+        new Rectangle(2, 320, 400, 10, 10, 0, 0, 55),
+
     )
 
     // cor.forEach((e, index)=>{
@@ -34,7 +37,7 @@ let initHero = () => {
             contact.contactPlanes[key] = new ContactPlane(i, j)
         }
     }
-
+    group.canJump = false
     groups['hero'] = group
     sameGupContacts['hero-hero'] = contact
     makeParallelBound(group, contact.contactPlanes, 10)
@@ -49,7 +52,7 @@ initGround = () => {
         new Rectangle(3, 2200, 400, 800, 200, 0, 0, 9999)
     )
 
-    contact = new Contact('hero', 'ground', 10000000, 100)
+    contact = new Contact('hero', 'ground', 1e8, 100)
 
     for (let i = 0; i < groups['hero'].elements.length; i++) {
         for (let j = 0; j < group.elements.length; j++) {
