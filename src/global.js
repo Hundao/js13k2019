@@ -8,7 +8,7 @@ let
     running = null,
 
     keys = {},
-    gravity = 9.81,
+    gravity = 0, // 9.81,
     dt = 0.001,
     controlKeys = {},
     actions = {},
@@ -26,4 +26,6 @@ let
         lX: 0,
         lY: 0
     }
+
+    envGroups=[]
 ; 

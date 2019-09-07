@@ -3,21 +3,21 @@
 actions['c'] = function(){
     let group = groups['hero']
     group.elements.forEach((e)=>{
-        e.f.y -= 1e11   
+        e.f[1] -= 1e11   
     })
 }
  
 actions['right'] = function(){
     let group = groups['hero']
     group.elements.forEach((e)=>{
-        e.f.x += 1e11
+        e.f[0] += 1e11
     })
 }
 
 actions['left'] = function(){
     let group = groups['hero']
     group.elements.forEach((e)=>{
-        e.f.x -= 1e11
+        e.f[0] -= 1e11
     })
 }
 
@@ -25,7 +25,7 @@ actions['down'] = function(){
 
     let group = groups['hero']
     group.elements.forEach((e)=>{
-        e.f.y += 1e11
+        e.f[1] += 1e11
     })
 }
 
@@ -33,15 +33,16 @@ actions['up'] = function(){
 
     let group = groups['hero']
     group.elements.forEach((e)=>{
-        e.f.y -= 1.5e10
+        e.f[1] -= 1.5e10
     })
 }
 
 actions['q'] = function(){
+    console.log('0-1')
     running = heroTimeBack
 }
 
-antiActions['q'] = function(){
-    console.log('anti action q launch')
-    running = gaming
+actions['w'] = function(){
+    console.log('0-2')
+    running = enemyTimeBack
 }

@@ -5,11 +5,11 @@ let makeParallelBound = (group, contactPlanes, dis) => {
         let e1 = group.elements[contactPlane.element1Index]
         let e2 = group.elements[contactPlane.element2Index]
 
-        if (e1.lt.x - dis > e2.rd.x + dis || e2.lt.x - dis > e1.rd.x) {
+        if (e1.lt[0] - dis > e2.rd[0] + dis || e2.lt[0] - dis > e1.rd[0]) {
             continue
         }
 
-        if (e1.lt.y - dis > e1.rd.y + dis || e2.lt.y - dis > e1.rd.y + dis) {
+        if (e1.lt[1] - dis > e1.rd[1] + dis || e2.lt[1] - dis > e1.rd[1] + dis) {
             continue
         }
 
@@ -45,26 +45,25 @@ let verlet = () => {
         for (let i in group.elements) {
             let e = group.elements[i]
 
-            e.v.x *= group.damp
-            e.v.y *= group.damp
+            e.v = scale(group.damp, e.v)
 
             let dmpInfluence = 1 - group.damp
-            e.v.x += (e.f.x * e.invm) * dmpInfluence * dt
-            e.v.y += (e.f.y * e.invm + gravity * e.mass) * dmpInfluence * dt
 
-            let disX = e.v.x * dt
-            let disY = e.v.y * dt
+            e.v[0] += (e.f[0] * e.invm) * dmpInfluence * dt
+            e.v[1] += (e.f[1] * e.invm + gravity * e.mass) * dmpInfluence * dt
 
-            if (e.lt.x + disX > bound.lX && e.rd.x + disX < bound.uX) {
-                e.pos.x += disX
-                e.lt.x += disX
-                e.rd.x += disX
+            let dis = scale(dt, e.v)
+
+            if (e.lt[0] + dis[0] > bound.lX && e.rd[0] + dis[0] < bound.uX) {
+                e.pos[0] += dis[0]
+                e.lt[0] += dis[0]
+                e.rd[0] += dis[0]
             }
 
-            if (e.lt.y + disY > bound.lY && e.rd.y + disY < bound.uY) {
-                e.pos.y += disY
-                e.lt.y += disY
-                e.rd.y += disY
+            if (e.lt[1] + dis[1] > bound.lY && e.rd[1] + dis[1] < bound.uY) {
+                e.pos[1] += dis[1]
+                e.lt[1] += dis[1]
+                e.rd[1] += dis[1]
             }
 
         }
@@ -108,11 +107,11 @@ let handleContact = () => {
 let _updateContactPlane = (e1, e2, contactPlane, contact) => {
 
     contactPlane.isContact = true
-    if (e1.lt.x > e2.rd.x || e2.lt.x > e1.rd.x) {
+    if (e1.lt[0] > e2.rd[0] || e2.lt[0] > e1.rd[0]) {
         contactPlane.isContact = false
     }
 
-    if (e1.lt.y > e2.rd.y || e2.lt.y > e1.rd.y) {
+    if (e1.lt[1] > e2.rd[1] || e2.lt[1] > e1.rd[1]) {
         contactPlane.isContact = false
     }
 
@@ -120,38 +119,91 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
         let d = distance(e1.pos, e2.pos)
         let nc = scale(1 / d, minus(e1.pos, e2.pos))
 
-        if (nc.x === 0 && nc.y === 0) {
-            nc.x = 1
-            nc.y = 0
+        if (nc[0] === 0 && nc[1] === 0) {
+            nc = [1, 0]
         }
 
-        let ncx = Math.abs(nc.x)
-        let ncy = Math.abs(nc.y)
+        let ncx = Math.abs(nc[0])
+        let ncy = Math.abs(nc[1])
 
-        if (ncx > ncy) {
-            if (nc.x > 0) {
-                nc = { x: 1, y: 0 }
-            }
-            else {
-                nc = { x: -1, y: 0 }
-            }
-        }
-        else {
-            if (nc.y > 0) {
-                nc = { x: 0, y: 1 }
-            } else {
-                nc = { x: 0, y: -1 }
-            }
-        }
+        // if (ncx > ncy) {
+        //     if (nc[0] > 0) {
+        //         nc = [1, 0]
+        //     }
+        //     else {
+        //         nc = [-1, 0]
+        //     }
+        // }
+        // else {
+        //     if (nc[1] > 0) {
+        //         nc = [0, 1]
+        //     } else {
+        //         nc = [0, -1]
+        //     }
+        // }
 
 
-        let maxX = Math.max(e1.lt.x, e1.rd.x, e2.lt.x, e2.rd.x)
-        let minX = Math.min(e1.lt.x, e1.rd.x, e2.lt.x, e2.rd.x)
-        let maxY = Math.max(e1.lt.y, e1.rd.y, e2.lt.y, e2.rd.y)
-        let minY = Math.min(e1.lt.y, e1.rd.y, e2.lt.y, e2.rd.y)
+        let maxX = Math.max(e1.lt[0], e1.rd[0], e2.lt[0], e2.rd[0])
+        let minX = Math.min(e1.lt[0], e1.rd[0], e2.lt[0], e2.rd[0])
+        let maxY = Math.max(e1.lt[1], e1.rd[1], e2.lt[1], e2.rd[1])
+        let minY = Math.min(e1.lt[1], e1.rd[1], e2.lt[1], e2.rd[1])
 
         let overlapX = (e1.len.w + e2.len.w) - (maxX - minX)
         let overlapY = (e1.len.h + e2.len.h) - (maxY - minY)
+
+
+        let doing = true
+        if(e1.len.w > e2.len.w){            
+            if(overlapX * overlapY === e2.len.w * e2.len.h){
+                nc = contactPlane.nc
+                doing = false
+            }
+            else if(overlapX === e2.len.w){
+                if(nc[1] > 0){
+                    nc = [0, 1]
+                    doing = false
+                }
+                else{
+                    nc = [0, -1]
+                    doing = false
+                }
+            }
+        }
+        else{            
+            if(overlapX * overlapY === e1.len.w * e1.len.h){
+                nc = contactPlane.nc
+                doing = false
+            }
+            else if(overlapX === e1.len.w){
+                if(nc[1] > 0){
+                    nc = [0, 1]
+                    doing = false
+                }
+                else{
+                    nc = [0, -1]
+                    doing = false
+                }
+            }
+        }
+
+        if(e1.len.h > e2.len.h && doing){
+            if(overlapY === e2.len.h){
+                if(nc[0] > 0){
+                    nc = [1, 0]
+                }else{
+                    nc = [-1, 0]
+                }
+            }
+        }
+        else if(doing){
+            if(overlapY === e1.len.h){
+                if(nc[0] > 0){
+                    nc = [1, 0]
+                }else{
+                    nc = [-1, 0]
+                }
+            }
+        }
 
         contactPlane.gc = overlapX * overlapY
         contactPlane.nc = nc
@@ -163,7 +215,6 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
         contactPlane.inD = plus(contactPlane.inD, scale(dt, contactPlane.rV))
 
         contactPlane.f = plus(contactPlane.f, scale(-1 * contact.pkn, contactPlane.inD))
-        // console.log(contactPlane.inD.x, contactPlane.f.x)
     }
 
 }
@@ -209,8 +260,7 @@ let resetForce = () => {
         let group = groups[key]
 
         for (let i in group.elements) {
-            group.elements[i].f.x = 0
-            group.elements[i].f.y = 0
+            group.elements[i].f = [0, 0]
         }
     }
 }
@@ -222,23 +272,25 @@ let updateBc = () => {
 
 
     for (let i in group.elements) {
-        tx += group.elements[i].pos.x
-        ty += group.elements[i].pos.y
+        tx += group.elements[i].pos[0]
+        ty += group.elements[i].pos[1]
     }
 
-    group.bc.x = tx / group.elements.length
-    group.bc.y = ty / group.elements.length
+    group.bc = [
+        tx / group.elements.length,
+        ty / group.elements.length
+    ]
 
 
-    let lower = group.bc.x - w * 0.5
-    let upper = group.bc.x + w * 0.5
+    let lower = group.bc[0] - w * 0.5
+    let upper = group.bc[0] + w * 0.5
 
-    if(lower > 0){
-        if(upper < mapw){   
+    if (lower > 0) {
+        if (upper < mapw) {
             vx = lower
         }
     }
-    else{
+    else {
         vx = 0
     }
 }

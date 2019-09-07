@@ -1,10 +1,10 @@
 
 let dot = (v1, v2) => {
-    return v1.x * v2.x + v1.y * v2.y
+    return v1[0] * v2[0] + v1[1] * v2[1]
 }
 
 let scale = (t , v) => {
-    return {x:v.x*t, y:v.y*t}
+    return [v[0] * t, v[1] * t]
 }
 
 let normalization = (v) => {
@@ -18,9 +18,9 @@ let distance = (v1, v2) =>{
 }
 
 let minus = (v1, v2) => {
-    return {x:v2.x - v1.x, y:v2.y - v1.y}
+    return [v2[0] - v1[0], v2[1] - v1[1]]
 }
 
 let plus = (v1, v2) => {
-    return {x:v1.x + v2.x, y:v1.y + v2.y}
+    return [v1[0] + v2[0], v1[1], v2[1]]
 }

@@ -3,6 +3,7 @@ const main = () => {
     onresize()
     initHero()
     initGround()
+    initEnemy()
 
     running = gaming
     execute()
