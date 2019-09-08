@@ -1,6 +1,7 @@
 
 const main = () => {
     onresize()
+    initSky()
     initHero()
     initGround()
     initEnemy()

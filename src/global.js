@@ -17,6 +17,8 @@ let
 
     bowForce = 50,
     shooting = false,
+    moving = false,
+    sky = [],
 
     groups = {},
 

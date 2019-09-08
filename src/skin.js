@@ -121,3 +121,125 @@ heroSkin = {
         }
     }
 }
+
+heroShootSkin = JSON.parse(JSON.stringify(heroSkin))
+heroShootSkin.hand = {
+    'main': {
+        'color': '#F9D4A5',
+        'points': [
+            [[7, 19], [7, 22]],
+            [8, 19]
+        ]
+    }
+}
+
+heroShootSkin.bow = {
+    'wood': {
+        'color': '#77634C',
+        'points': [
+            [12, 9], [13, 9],
+            [[13, 10], [15, 11]],
+            [[16, 11], [17, 13]], [15, 12],
+            [17, 14], [17, 15],
+            [[18, 14], [18, 19]],
+            [[19, 17], [19, 26]],
+            [[18, 24], [18, 29]],
+            [[17, 28], [17, 31]],
+            [16, 30], [16, 31], [15, 31], [15, 32],
+            [14, 32], [14, 33], [13, 33]
+        ]
+    },
+    'line': {
+        'color': '#777268',
+        'points': [
+            [[12, 10], [12, 12]],
+            [[11, 12], [11, 14]],
+            [[10, 14], [10, 16]],
+            [[9, 16], [9, 19]],
+            [[8, 20], [8, 22]],
+            [[9, 23], [9, 24]],
+            [[10, 24], [10, 26]],
+            [[11, 26], [11, 29]],
+            [[12, 29], [12, 31]],
+            [[13, 31], [13, 32]]
+        ]
+    },
+    'arrow': {
+        'color': '#55461F',
+        'points': [
+            [[9, 21], [13, 22]],
+            [[13, 20], [18, 21]]
+        ]
+    }
+}
+
+heroMoveSkin = JSON.parse(JSON.stringify(heroSkin))
+delete heroMoveSkin['left-foot']
+delete heroMoveSkin['right-foot']
+heroMoveSkin.priority.push('foot')
+heroMoveSkin['foot'] = {
+    'pants': {
+        'color': '#0E0E0E',
+        'points': [
+            [[5, 29], [15, 30]],
+            [[6, 31], [14, 31]],
+            [[8, 32], [14, 32]],
+            [[7, 33], [14, 33]],
+            [[6, 34], [15, 34]],
+            [[5, 35], [9, 35]], [[12, 35], [16, 35]],
+            [[6, 36], [8, 36]], [[14, 36], [16, 36]],
+            [15, 37], [16, 37]
+        ]
+    },
+    'foot': {
+        'color': '#F9D4A5',
+        'points': [
+            [4, 37], [5, 37], [12, 37], [16, 37],
+            [[4, 38], [7, 39]], [3, 39],
+            [12, 38], [13, 38], [16, 38], [17, 38],
+            [[12,39], [17,39]]
+        ]
+    }
+}
+
+heroMoveAndShoot = JSON.parse(JSON.stringify(heroSkin))
+delete heroMoveAndShoot['left-foot']
+delete heroMoveAndShoot['right-foot']
+heroMoveAndShoot.priority.push('foot')
+heroMoveAndShoot.foot = heroMoveSkin['foot']
+heroMoveAndShoot.hand = heroShootSkin.hand
+heroMoveAndShoot.bow = heroShootSkin.bow
+
+
+arrowSkin = {
+    'priority': ['arrow'],
+    'arrow': {
+        'wood': {
+            'color': '#55461F',
+            'points': [
+                [[0, 4], [6, 4]]
+            ]
+        },
+        'sliver': {
+            'color': '#C7D3CF',
+            'points': [
+                [[7, 2], [7, 6]],
+                [[8, 3], [8, 5]],
+                [9, 4]
+            ]
+        },
+        'brown-feather': {
+            'color': '#999886',
+            'points': [
+                [1, 2], [2, 3], [2, 5], [1, 6]
+            ]
+        },
+        'black-feather': {
+            'color': '#182219',
+            'points': [
+                [0, 2], [1, 3], [1, 5], [0, 6]
+            ]
+        }
+    }
+}
+

@@ -22,6 +22,8 @@ function execute() {
 }
 
 let handleControl = () => {
+    moving = false
+
     for (let key in controlKeys) {
         if (controlKeys[key]) {
             if (actions[key]) {
@@ -30,24 +32,25 @@ let handleControl = () => {
         }
     }
 
-    if(shooting && !controlKeys['x']){
+    if (shooting && !controlKeys['x']) {
         let arrow = groups['arrow']
-        let hero = groups['hero']
-        let v = scale(bowForce, [hero.face[0], -0.1])
-        
+        let hero = groups['hero'].elements[0]
+        let v = scale(bowForce, [hero.face, -0.1])
+
         arrow.elements.push(
             new Rectangle(
                 arrow.elements.length,
-                hero.elements[0].pos[0],
-                hero.elements[0].pos[1],
-                10, 
+                hero.pos[0],
+                hero.pos[1],
                 10,
-                v[0], 
+                10,
+                v[0],
                 v[1],
-                200
+                200,
+                hero.face
             )
         )
-    
+
         bowForce = 30
         shooting = false
     }
@@ -115,13 +118,19 @@ let enemyTimeBack = () => {
 
     let group = groups['enemy']
 
-    for (let i = 0; i < 2; i++) {
-        if (group.snapshots.length > 0) {
-            _copyState(group)
-            group.snapshots.pop()
-        } else {
-            console.log('snapshot is no more')
-        }
+    if (group.snapshots.length > 0) {
+        _copyState(group)
+        group.snapshots.pop()
+    } else {
+        console.log('snapshot is no more')
+    }
+
+    group = groups['arrow']
+    if (group.snapshots.length > 0) {
+        _copyState(group)
+        group.snapshots.pop()
+    } else {
+        console.log('snapshot is no more')
     }
 
     if (controlKeys['w'] === false) {

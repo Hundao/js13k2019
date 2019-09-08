@@ -1,22 +1,67 @@
 
 
 let drawBackground = () => {
-    ctx.fillStyle = '#cdd6c9';
+    let grd = ctx.createLinearGradient(0, 0, w, h)
+    grd.addColorStop(0, '#53468E');
+    grd.addColorStop(0.33, '#5B65A3');
+    grd.addColorStop(1, '#418DB0');
+
+
+    ctx.fillStyle = grd;
     ctx.fillRect(0, 0, w, h);
+
+
+    ctx.fillStyle = '#9BADCE'
+    sky.forEach((e)=>{
+        ctx.fillRect(e[0] -vx, e[1], 5.5, 5.5);
+    })
 }
 
 let drawGround = () => {
-    ctx.fillStyle = '#665753'
     let group = groups['ground']
 
+    let h1 = 10
+    let h2 = 15
+
     group.elements.forEach((e) => {
+ 
+        ctx.fillStyle = '#3CA836'
         ctx.fillRect(
             e.lt[0] - vx,
             e.lt[1],
             e.len.w,
+            h1
+        )
+        
+        ctx.fillStyle = '#978426'
+        ctx.fillRect(
+            e.lt[0] - vx,
+            e.lt[1] + h1,
+            e.len.w,
+            h2
+        )
+
+        ctx.fillStyle = '#A94823'
+        
+        ctx.fillRect(
+            e.lt[0] - vx,
+            e.lt[1] + h1 + h2,
+            e.len.w,
             e.len.h
         )
+
+        ctx.fillStyle = '#A98F81'
+        e.stones.forEach((p)=>{
+            ctx.fillRect(
+                p[0] - vx + e.lt[0],
+                p[1] + e.lt[1],
+                11,
+                11
+            )
+        })
     })
+
+
 
 }
 
@@ -24,40 +69,19 @@ let drawHero = () => {
     ctx.fillStyle = 'blue'
 
     let hero = groups['hero'].elements[0]
+    let skin = heroSkin
 
-    let priority = heroSkin.priority
-
-    for(let i in priority){
-        let part = heroSkin[priority[i]]
-
-        for(let key in part){
-            let draw = part[key]
-
-            ctx.fillStyle = draw.color
-
-            draw.points.forEach((p)=>{
-                if(Array.isArray(p[0])){
-                    for(let j = p[0][0]; j <= p[1][0]; j++ ){
-                        for(let k = p[0][1]; k <= p[1][1]; k++){
-                            ctx.fillRect(
-                                j + hero.lt[0] - vx, 
-                                k + hero.lt[1],
-                                1,
-                                1
-                            )
-                        }
-                    }
-                }else{
-                    ctx.fillRect(
-                        p[0] + hero.lt[0] -vx,
-                        p[1] + hero.lt[1],
-                        1,
-                        1
-                    )
-                }
-            })
-        }
+    if(shooting && moving){
+        skin = heroMoveAndShoot
     }
+    else if(shooting){
+        skin = heroShootSkin
+    }
+    else if(moving){
+        skin = heroMoveSkin
+    }
+
+    renderSkin(hero, skin)
 
 }
 
@@ -77,23 +101,90 @@ let drawEnemy = () => {
 let drawBackEffect = (color1, color2) => {
 
     let grd = ctx.createRadialGradient(w * 0.5, h * 0.5, 250, w * 0.5, h * 0.5, 450)
-    // grd.addColorStop(0, 'rgb(63, 64, 61, 0.1');
-    // grd.addColorStop(1, 'rgb(227, 32, 64, 1')
     grd.addColorStop(0, color1);
     grd.addColorStop(1, color2)
     ctx.fillStyle = grd
     ctx.fillRect(0, 0, w, h)
 }
 
-let drawArrow = ()=>{
-    ctx.fillStyle = '#db3f27'
+let drawArrow = () => {
     let group = groups['arrow']
     group.elements.forEach((e) => {
-        ctx.fillRect(
-            e.lt[0] - vx,
-            e.lt[1],
-            e.len.w,
-            e.len.h
-        )
+
+        renderSkin(e, arrowSkin)
     })
+}
+
+
+let renderSkin = (e, skin) => {
+
+    let priority = skin.priority
+
+    if (e.face === 1) {
+        for (let i in priority) {
+            let part = skin[priority[i]]
+
+            for (let key in part) {
+                let draw = part[key]
+
+                ctx.fillStyle = draw.color
+
+                draw.points.forEach((p) => {
+                    if (Array.isArray(p[0])) {
+                        for (let j = p[0][0]; j <= p[1][0]; j++) {
+                            for (let k = p[0][1]; k <= p[1][1]; k++) {
+                                ctx.fillRect(
+                                    j + e.lt[0] - vx,
+                                    k + e.lt[1],
+                                    1,
+                                    1
+                                )
+                            }
+                        }
+                    } else {
+                        ctx.fillRect(
+                            p[0] + e.lt[0] - vx,
+                            p[1] + e.lt[1],
+                            1,
+                            1
+                        )
+                    }
+                })
+            }
+        }
+    }
+    else {
+        for (let i in priority) {
+            let part = skin[priority[i]]
+
+            for (let key in part) {
+                let draw = part[key]
+
+                ctx.fillStyle = draw.color
+
+                draw.points.forEach((p) => {
+                    if (Array.isArray(p[0])) {
+                        for (let j = e.len.w - p[1][0]; j <= e.len.w - p[0][0]; j++) {
+                            for (let k = p[0][1]; k <= p[1][1]; k++) {
+                                ctx.fillRect(
+                                    j + e.lt[0] - vx,
+                                    k + e.lt[1],
+                                    1,
+                                    1
+                                )
+                            }
+                        }
+                    } else {
+                        ctx.fillRect(
+                            e.len.w - p[0] + e.lt[0] - vx,
+                            p[1] + e.lt[1],
+                            1,
+                            1
+                        )
+                    }
+                })
+            }
+        }
+    }
+
 }

@@ -28,20 +28,17 @@ actions['c'] = function () {
 }
 
 actions['right'] = function () {
-    let group = groups['hero']
-
-    group.elements.forEach((e) => {
-        e.f[0] += 1e11
-    })
-    group.face = [1, 0]
+    let hero = groups['hero'].elements[0]
+    hero.f[0] += 1e11
+    hero.face = 1
+    moving = true
 }
 
 actions['left'] = function () {
-    let group = groups['hero']
-    group.elements.forEach((e) => {
-        e.f[0] -= 1e11
-    })
-    group.face = [-1, 0]
+    let hero = groups['hero'].elements[0]
+    hero.f[0] -= 1e11
+    hero.face = -1
+    moving = true
 }
 
 actions['down'] = function () {
@@ -71,7 +68,6 @@ actions['w'] = function () {
 actions['x'] = function () {
     if(bowForce < 200)
         bowForce+=1
-    console.log(bowForce)
     shooting = true
 }
 

@@ -85,7 +85,6 @@ let handleContact = () => {
                 let key = `${i}-${j}`
 
                 if(!contact.contactPlanes.hasOwnProperty(key)){
-                    console.log(`add new contact plane ${key}`)
                     let contactPlane = new ContactPlane(i, j)
                     _updateContactPlane(e1, e2, contactPlane, contact)
                     contact.contactPlanes[key] = contactPlane
