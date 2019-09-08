@@ -9,27 +9,12 @@ let initFun = () => {
 
 let initHero = () => {
     let group = new Group('hero', 100, 0.999, false)
-    let contact = new Contact('hero', 'hero', 1e7, 1e7)
+    let contact = new Contact('hero', 'hero', 1e8, 1e3)
 
     group.elements.push(
-        // new Rectangle(0, 50, 50, 10, 10, 55),
-        // new Rectangle(1, 60, 50, 10, 10, 55),
-        // new Rectangle(2, 70, 50, 10, 10, 55),
-        // new Rectangle(3, 50, 60, 10, 10, 55),
-        // new Rectangle(4, 70, 60, 10, 10, 55),
-        // new Rectangle(5, 50, 70, 10, 10, 55),
-        // new Rectangle(6, 60, 70, 10, 10, 55),
-        // new Rectangle(7, 70, 70, 10, 10, 55),
-        // new Rectangle(0, 50, 400, 10, 10, 55),
-        // new Rectangle(0, 300, 400, 10, 10, 0, 0, 55),
-        // new Rectangle(1, 310, 400, 10, 10, 0, 0, 55),
-        new Rectangle(2, 320, 400, 10, 10, 0, 0, 55),
-
+        new Rectangle(0, 300, 400, 20, 40, 0, 0, 15),
     )
 
-    // cor.forEach((e, index)=>{
-    //     group.elements.push(new Rectangle(index, e[0], e[1],10 ,10,55))
-    // })
 
     for (let i = 0; i < group.elements.length; i++) {
         for (let j = i + 1; j < group.elements.length; j++) {
@@ -38,9 +23,10 @@ let initHero = () => {
         }
     }
     group.canJump = false
+    group.face = [1, 0]
     groups['hero'] = group
     sameGupContacts['hero-hero'] = contact
-    makeParallelBound(group, contact.contactPlanes, 10)
+    makeParallelBound(group, contact.contactPlanes, 1)
 }
 
 initGround = () => {
@@ -84,4 +70,21 @@ initEnemy = () => {
     }
     difGupContacts['enemy-ground'] = contact
     groups['enemy'] = group
+}
+
+initArrow = () =>{
+    let group = new Group('arrow', 50, 0.999999, false)
+
+    contact = new Contact('arrow', 'ground', 1e7, 0)
+
+    for(let i =0; i < group.elements.length; i++){
+        for(let j = 0 ; j < groups['ground'].elements.length; j++){
+            let key = `${i}-${j}`
+            contact.contactPlanes[key] = new ContactPlane(i, j)
+        }
+    }
+
+    difGupContacts['arrow-ground'] = contact
+
+    groups['arrow'] = group
 }

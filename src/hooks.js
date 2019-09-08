@@ -38,14 +38,17 @@ onkeydown = function (e) {
             controlKeys['c'] = true
             break;
         case 81:
-            controlKeys['q'] = true;
-            break;
+            controlKeys['q'] = true
+            break
         case 87:
-            controlKeys['w'] = true;
-            break;
+            controlKeys['w'] = true
+            break
         case 69:
-            controlKeys['e'] = true;
-            break;
+            controlKeys['e'] = true
+            break
+        case 88:
+            controlKeys['x'] = true
+            break
     }
 }
 
@@ -70,10 +73,13 @@ onkeyup = function (e) {
             controlKeys['q'] = false
             break;
         case 87:
-            controlKeys['w'] = false;
-            break;
+            controlKeys['w'] = false
+            break
         case 69:
-            controlKeys['e'] = false;
-            break;
+            controlKeys['e'] = false
+            break
+        case 88:
+            controlKeys['x'] = false
+            break
     }
 }

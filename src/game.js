@@ -5,6 +5,7 @@ let gaming = () => {
     drawGround()
     drawHero()
     drawEnemy()
+    drawArrow()
 
     for (let i = 0; i < 100; i++) {
         demStep()
@@ -27,6 +28,28 @@ let handleControl = () => {
                 actions[key]()
             }
         }
+    }
+
+    if(shooting && !controlKeys['x']){
+        let arrow = groups['arrow']
+        let hero = groups['hero']
+        let v = scale(bowForce, [hero.face[0], -0.1])
+        
+        arrow.elements.push(
+            new Rectangle(
+                arrow.elements.length,
+                hero.elements[0].pos[0],
+                hero.elements[0].pos[1],
+                10, 
+                10,
+                v[0], 
+                v[1],
+                200
+            )
+        )
+    
+        bowForce = 30
+        shooting = false
     }
 }
 
@@ -59,6 +82,8 @@ let heroTimeBack = () => {
     drawGround()
     drawEnemy()
     drawHero()
+    drawArrow()
+
     drawBackEffect('rgb(34, 150, 227, 0.08', 'rgb(0, 183, 255, 1')
 
     let group = groups['hero']
@@ -84,6 +109,8 @@ let enemyTimeBack = () => {
     drawGround()
     drawEnemy()
     drawHero()
+    drawArrow()
+
     drawBackEffect('rgb(63, 64, 61, 0.1', 'rgb(227, 32, 64, 1')
 
     let group = groups['enemy']

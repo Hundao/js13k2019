@@ -1,26 +1,24 @@
 
 // jump
-actions['c'] = function(){
+actions['c'] = function () {
     let group = groups['hero']
-    if(group.canJump){
+    if (group.canJump) {
 
-        let fun =(e)=>{
-            e.f[1] -= 5e11
+        let fun = (e) => {
+            e.f[1] -= 1.5e12
         }
 
-        if(controlKeys['left']){
-            fun = (e)=>{
+        if (controlKeys['left']) {
+            fun = (e) => {
                 e.f[1] -= 5e11
-                e.f[0] += 5e11
+                // e.f[0] += 5e11
             }
         }
 
-
-
-        if(controlKeys['right']){
-            fun = (e)=>{
+        if (controlKeys['right']) {
+            fun = (e) => {
                 e.f[1] -= 5e11
-                e.f[0] -= 5e11
+                // e.f[0] -= 5e11
             }
         }
 
@@ -28,44 +26,55 @@ actions['c'] = function(){
         group.canJump = false
     }
 }
- 
-actions['right'] = function(){
+
+actions['right'] = function () {
     let group = groups['hero']
-    
-    group.elements.forEach((e)=>{
+
+    group.elements.forEach((e) => {
         e.f[0] += 1e11
     })
+    group.face = [1, 0]
 }
 
-actions['left'] = function(){
+actions['left'] = function () {
     let group = groups['hero']
-    group.elements.forEach((e)=>{
+    group.elements.forEach((e) => {
         e.f[0] -= 1e11
     })
+    group.face = [-1, 0]
 }
 
-actions['down'] = function(){
+actions['down'] = function () {
 
     let group = groups['hero']
-    group.elements.forEach((e)=>{
+    group.elements.forEach((e) => {
         e.f[1] += 1e11
     })
 }
 
-actions['up'] = function(){
+actions['up'] = function () {
 
     let group = groups['hero']
-    group.elements.forEach((e)=>{
+    group.elements.forEach((e) => {
         e.f[1] -= 1.5e10
     })
 }
 
-actions['q'] = function(){
-    console.log('0-1')
+actions['q'] = function () {
     running = heroTimeBack
 }
 
-actions['w'] = function(){
-    console.log('0-2')
+actions['w'] = function () {
     running = enemyTimeBack
+}
+
+actions['x'] = function () {
+    if(bowForce < 200)
+        bowForce+=1
+    console.log(bowForce)
+    shooting = true
+}
+
+antiActions['x'] = function(){
+
 }

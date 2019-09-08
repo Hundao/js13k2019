@@ -8,12 +8,15 @@ let
     running = null,
 
     keys = {},
-    gravity =  9.81,
+    gravity = 9.81,
     dt = 0.001,
     controlKeys = {},
     actions = {},
     antiActions = {},
     groundHeight = 200,
+
+    bowForce = 50,
+    shooting = false,
 
     groups = {},
 

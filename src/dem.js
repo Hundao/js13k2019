@@ -82,8 +82,20 @@ let handleContact = () => {
                 let e1 = group1.elements[i]
                 let e2 = group2.elements[j]
 
-                let contactPlane = contact.contactPlanes[`${i}-${j}`]
-                _updateContactPlane(e1, e2, contactPlane, contact)
+                let key = `${i}-${j}`
+
+                if(!contact.contactPlanes.hasOwnProperty(key)){
+                    console.log(`add new contact plane ${key}`)
+                    let contactPlane = new ContactPlane(i, j)
+                    _updateContactPlane(e1, e2, contactPlane, contact)
+                    contact.contactPlanes[key] = contactPlane
+                }else{
+                    let contactPlane = contact.contactPlanes[key]
+                    _updateContactPlane(e1, e2, contactPlane, contact)
+
+                }
+
+
             }
         }
 
@@ -199,10 +211,11 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
     }
 
     if (contactPlane.isBound) {
+        
         contactPlane.rV = minus(e2.v, e1.v)
         contactPlane.inD = plus(contactPlane.inD, scale(dt, contactPlane.rV))
 
-        contactPlane.f = plus(contactPlane.f, scale(-1 * contact.pkn, contactPlane.inD))
+        contactPlane.f = plus(contactPlane.f, scale(contact.pkn, contactPlane.inD))
     }
 
 }
@@ -215,8 +228,7 @@ let receiveForce = () => {
         let group2 = groups[contact.group2Index]
         for (let i in contact.contactPlanes) {
             let contactPlane = contact.contactPlanes[i]
-            if (!contactPlane.isContact) continue
-
+            if (!contactPlane.isContact) continue 
             let e1 = group1.elements[contactPlane.element1Index]
             let e2 = group2.elements[contactPlane.element2Index]
             e1.f = minus(contactPlane.f, e1.f)
@@ -231,7 +243,7 @@ let receiveForce = () => {
         let group = groups[contact.group1Index]
         for (let i in contact.contactPlanes) {
             let contactPlane = contact.contactPlanes[i]
-            if (!contactPlane.isContact) continue
+            if (!contactPlane.isContact && !contactPlane.isBound) continue
 
             let e1 = group.elements[contactPlane.element1Index]
             let e2 = group.elements[contactPlane.element2Index]

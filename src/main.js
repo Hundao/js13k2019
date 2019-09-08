@@ -4,6 +4,7 @@ const main = () => {
     initHero()
     initGround()
     initEnemy()
+    initArrow()
 
     running = gaming
     execute()

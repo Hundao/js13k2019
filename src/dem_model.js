@@ -18,7 +18,7 @@ class ContactPlane {
 
 
 class Rectangle {
-    constructor(id, ltx, lty, w, h, loadX, loadY, density) {
+    constructor(id, ltx, lty, w, h, vx, vy, density) {
         this.id = id
         this.mass = w * h * density
         this.invm = 1 / this.mass
@@ -39,8 +39,7 @@ class Rectangle {
 
         this.f = [0, 0]
 
-        this.v = [0, 0]
-        this.load = [loadX, loadY]
+        this.v = [vx, vy]
     }
 }
 
