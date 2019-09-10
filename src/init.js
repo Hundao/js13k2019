@@ -15,22 +15,26 @@ let initHero = () => {
     }
     group.canJump = false
     group.face = [1, 0]
+    group.isSuper = false
+
     groups['hero'] = group
     sameGupContacts['hero-hero'] = contact
-    makeParallelBound(group, contact.contactPlanes, 1)
+
+    hero = group.elements[0]
+    // makeParallelBound(group, contact.contactPlanes, 1)
 }
 
 initGround = () => {
     let group = new Group('ground', 0, 0, true)
     group.elements.push(
         new Rectangle(0,   0, 550, 200, 90, 0, 0, 9999),
-        new Rectangle(0, 200, 140, 150, 500, 0, 0, 9999),
-        new Rectangle(1, 350, 400, 600, 240, 0, 0, 9999),
-        new Rectangle(2, 950, 60, 120, 640, 0, 0, 9999),
-        new Rectangle(3, 1070, 500, 800, 140, 0, 0, 9999),
-        new Rectangle(4, 1200, 150, 820, 140, 0, 0, 9999),
-        new Rectangle(5, 1870, 150, 150, 490, 0, 0, 9999),
-        new Rectangle(6, 2020, 500, 980, 140, 0, 0, 9999),
+        new Rectangle(1, 200, 140, 150, 500, 0, 0, 9999),
+        new Rectangle(2, 350, 400, 600, 240, 0, 0, 9999),
+        new Rectangle(3, 950, 60, 120, 640, 0, 0, 9999),
+        new Rectangle(4, 1070, 500, 800, 140, 0, 0, 9999),
+        new Rectangle(5, 1200, 150, 820, 140, 0, 0, 9999),
+        new Rectangle(6, 1870, 0, 150, 640, 0, 0, 9999),
+        new Rectangle(7, 2020, 500, 980, 140, 0, 0, 9999),
     )
 
     contact = new Contact('hero', 'ground', 1e8, 100)
@@ -90,20 +94,19 @@ initEnemy = () => {
     let group = new Group('enemy', 100, 0.99, false)
 
     group.elements.push(
-        // new Rectangle(0, 500, 400, 60, 60, -1e10, 0, 55)
         new Rectangle(0, 500, 200, 100, 100, 0, 0, 55)
     )
 
-    contact = new Contact('enemy', 'ground', 1e12, 100)
+    let contact = new Contact('enemy', 'ground', 1e12, 100)
+    let contactHero = new Contact('enemy', 'hero', 1e10, 100)
 
-    for(let i =0; i < group.elements.length; i++){
-        for(let j = 0 ; j < groups['ground'].elements.length; j++){
-            let key = `${i}-${j}`
-            contact.contactPlanes[key] = new ContactPlane(i, j)
-        }
-    }
-    difGupContacts['enemy-ground'] = contact
+    group.elements.forEach((e)=>{
+        e.canMove = true
+    })
+
     groups['enemy'] = group
+    difGupContacts['enemy-ground'] = contact
+    difGupContacts['enemy-hero'] = contactHero
 }
 
 initArrow = () =>{
@@ -118,7 +121,16 @@ initArrow = () =>{
         }
     }
 
+    contactEnemy = new Contact('arrow', 'enemy', 1e10, 0)
+    for(let i =0; i < group.elements.length; i++){
+        for(let j = 0 ; j < groups['enemy'].elements.length; j++){
+            let key = `${i}-${j}`
+            contactEnemy.contactPlanes[key] = new ContactPlane(i, j)
+        }
+    }
+
     difGupContacts['arrow-ground'] = contact
+    difGupContacts['arrow-enemy'] = contactEnemy
 
     groups['arrow'] = group
 }

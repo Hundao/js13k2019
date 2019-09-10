@@ -14,6 +14,8 @@ let
     actions = {},
     antiActions = {},
     groundHeight = 200,
+    fixed = false,
+    hero = null,
 
     bowForce = 50,
     shooting = false,
@@ -21,6 +23,10 @@ let
     sky = [],
 
     groups = {},
+    user = {
+        hp: 80,
+        maxHp: 100,
+    },
 
     difGupContacts = {},
     sameGupContacts = {},

@@ -3,12 +3,6 @@ var ac = typeof AudioContext !== 'undefined' ? new AudioContext : new webkitAudi
 
     // set the tempo
     tempo = 240,
-    // initialize some vars
-    mainAudio,
-    subAudio,
-    shootMus,
-    jumpMus,
-    
 
     // create an array of "note strings" that can be passed to a sequence
     lead = [
@@ -20,7 +14,7 @@ var ac = typeof AudioContext !== 'undefined' ? new AudioContext : new webkitAudi
         'C4 w', 'G4 q', 'A4 q', 'Bb4 q', 'G4 q',
         'A4 h', 'A3 h', 'Bb3 h', 'Bb4 h',
         'G4 h', 'G4 q', 'A4 q', 'Bb4 h', 'G4 h',
-        'A4 w', 'C5 w', 
+        'A4 w', 'C5 w',
         'Bb4 6', 'A4 q',
         'D5 w', 'C5 w',
         'G4 h', 'G4 q', 'A4 q', 'Bb4 w', 'G4 w',
@@ -43,7 +37,7 @@ var ac = typeof AudioContext !== 'undefined' ? new AudioContext : new webkitAudi
         'C3 8',
         'C3 8',
         'C3 8',
-        'F3 w', 'D3 w', 
+        'F3 w', 'D3 w',
         'E3 w', 'C3 w',
         'F3 w', 'D3 w',
         'E3 6', 'C3 h',
@@ -57,7 +51,7 @@ var ac = typeof AudioContext !== 'undefined' ? new AudioContext : new webkitAudi
         'G3 6', 'D4 h',
         'G3 6', 'D4 h',
         'G3 6', 'D4 h',
-        'G3 h', '- 6' , //
+        'G3 h', '- 6', //
         '- h', 'A3 q', 'Bb3 q', 'C4 h', 'Cb4 h',
         'D4 h', 'Bb3 q', 'C4 q', 'D4 h', 'E4 h',
         'F4 h', 'D4 q', 'E4 q', 'F4 h', 'G4 h',
@@ -74,16 +68,19 @@ var ac = typeof AudioContext !== 'undefined' ? new AudioContext : new webkitAudi
         'C2 s'
     ]
 
-    // create 3 new sequences (one for lead, one for harmony, one for bass)
-    mainAudio = new TinyMusic.Sequence(ac, tempo, lead)
-    subAudio = new TinyMusic.Sequence(ac, tempo, horn)
-    jumpAudio = new TinyMusic.Sequence(ac, tempo, jumpF)  
-    shootAudio = new TinyMusic.Sequence(ac, tempo, shootF)
+// create 3 new sequences (one for lead, one for harmony, one for bass)
+mainAudio = new TinyMusic.Sequence(ac, tempo, lead),
+subAudio = new TinyMusic.Sequence(ac, tempo, horn),
+jumpAudio = new TinyMusic.Sequence(ac, tempo, jumpF),
+shootAudio = new TinyMusic.Sequence(ac, tempo, shootF),
+reverseMainAudio = new TinyMusic.Sequence(ac, tempo *10, lead.reverse()),
+reverseSubAudio = new TinyMusic.Sequence(ac, tempo * 10, horn.reverse()),
 
-var sequences = [];
 // //cloase the loop play
 mainAudio.loop = true;
 subAudio.loop = true;
+reverseMainAudio.loop = true
+reverseSubAudio.loop = true
 jumpAudio.loop = false;
 shootAudio.loop = false;
 // sequence1.smoothing = 0.1
@@ -99,23 +96,44 @@ mainAudio.gain.gain.value = 0.1;
 subAudio.gain.gain.value = 0.05;
 jumpAudio.gain.gain.value = 0.03;
 shootAudio.gain.gain.value = 0.03;
+reverseMainAudio.gain.gain.value = 0.1;
+reverseSubAudio.gain.gain.value = 0.05;
 
 // apply EQ settings
 mainAudio.mid.frequency.value = 1000;
 mainAudio.mid.gain.value = 3;
 jumpAudio.mid.gain.value = 3;
 
-let playMusic = ()=>{
+reverseMainAudio.mid.frequency.value = 1000;
+reverseMainAudio.mid.gain.value = 3;
+reverseSubAudio.mid.gain.value = 3;
+
+let playReserverMusic = () =>{
+    reverseMainAudio.play()
+    reverseSubAudio.play()
+}
+
+let stopReserverMusic = () => {
+    reverseMainAudio.stop()
+    reverseSubAudio.stop()
+}
+
+let playMusic = () => {
     mainAudio.play()
     subAudio.play()
 }
 
-let playJumpAudio = ()=>{
+let stopMusic = () => {
+    mainAudio.stop()
+    subAudio.stop()
+}
+
+let playJumpAudio = () => {
     jumpAudio.stop()
     jumpAudio.play()
 }
 
-let playShootMusic = () =>{
+let playShootMusic = () => {
     shootAudio.stop()
     shootAudio.play()
 }

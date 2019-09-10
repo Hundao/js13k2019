@@ -1,11 +1,13 @@
 // using for control the game's flow 
 
 let gaming = () => {
+    handleViewMove()
     drawBackground()
     drawGround()
     drawHero()
     drawEnemy()
     drawArrow()
+    drawHead()
 
     for (let i = 0; i < 100; i++) {
         demStep()
@@ -13,9 +15,21 @@ let gaming = () => {
 
     handleControl()
     handleArrowContact()
+    handleEnemyMove()
+    handleHeroAttaced()
     makeSnapshot()
+
+    events.forEach((e,i )=>e(i))
 }
 
+let eventing = () =>{
+    drawBackground()
+    drawGround()
+    drawHero()
+    drawEnemy()
+    drawArrow()
+    drawHead()
+}
 
 function execute() {
     running();
@@ -52,8 +66,13 @@ let handleControl = () => {
             )
         )
 
-        bowForce = 30
+        bowForce = 100
         shooting = false
+    }
+
+    if(controlKeys['q']){
+        stopMusic()
+        playReserverMusic()
     }
 }
 
@@ -92,18 +111,18 @@ let heroTimeBack = () => {
 
     let group = groups['hero']
 
-    for (let i = 0; i < 2; i++) {
-        if (group.snapshots.length > 0) {
-            _copyState(group, true)
-            group.snapshots.pop()
-        } else {
-            console.log('snapshot is no more')
-        }
+    if (group.snapshots.length > 0) {
+        _copyState(group, true)
+        group.snapshots.pop()
+    } else {
+        console.log('snapshot is no more')
     }
 
 
     if (controlKeys['q'] === false) {
         running = gaming
+        stopReserverMusic()
+        playMusic()
     }
 
 }
@@ -167,6 +186,13 @@ let handleArrowContact = ()=>{
         }
     }
 
+    for(let key in difGupContacts['arrow-enemy'].contactPlanes){
+        let plane = difGupContacts['arrow-enemy'].contactPlanes[key]
+        if(plane.isContact){
+            dead[plane.element1Index] = true
+        }
+    }
+
     //handle arrive bounding
     groups['arrow'].elements.forEach((e, i)=>{
         if(e.lt[0] <= bound.lX+1 || e.rd[0] >= bound.uX -1 ){
@@ -180,6 +206,58 @@ let handleArrowContact = ()=>{
     })
 
     difGupContacts['arrow-ground'].contactPlanes= {}
+    difGupContacts['arrow-enemy'].contactPlanes= {}
+}
+
+let handleHeroAttaced = ()=>{
+    for(let key in difGupContacts['enemy-hero'].contactPlanes){
+        let plane = difGupContacts['enemy-hero'].contactPlanes[key]
+        if(plane.isContact && groups['hero'].isSuper === false){
+            groups['hero'].isSuper = true
+            user.hp -= 10
+
+            setTimeout(()=>{
+                groups['hero'].isSuper = false
+            })
+        }
+    }
+
+}
+
+let handleEnemyMove = () =>{
+    let enemys = groups['enemy'].elements
+    let hero = groups['hero'].elements[0]
 
 
+    enemys.forEach((e)=>{
+        if(e.canMove){
+            let dis = distance(hero.pos, e.pos)
+            if(dis < 500){
+                let target = hero.pos[0] > e.pos[0] ? 1 : -1
+                e.f = plus(e.f, scale(dis * 1e11, [target, -10]))
+                
+                e.canMove = false
+                setTimeout(()=>e.canMove= true, 1500)
+            }
+        }
+    })
+
+}
+
+let handleViewMove = () => {
+
+    if(fixed) return
+
+    let pos = groups['hero'].elements[0].pos
+    let lower = pos[0] - w * 0.5
+    let upper = pos[0] + w * 0.5
+
+    if (lower > 0) {
+        if (upper < mapw) {
+            vx = lower
+        }
+    }
+    else {
+        vx = 0
+    }
 }

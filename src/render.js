@@ -117,6 +117,73 @@ let drawArrow = () => {
 }
 
 
+let drawHead = () => {
+
+    ctx.fillStyle = '#060001'
+    ctx.lineWidth = 5;
+    ctx.lineJoin = "round";
+    ctx.strokeRect(98, 18, 205, 24);
+
+    let hpw = user.hp / user.maxHp * 200
+    let losew = (user.maxHp - user.hp) / user.maxHp * 200
+
+    ctx.fillStyle = '#E61E18'
+    ctx.fillRect(100, 20, hpw, 20)
+
+    ctx.fillStyle = '#474646'
+    ctx.fillRect(100+ hpw, 20, losew, 20)
+
+    //draw 
+    ctx.fillStyle = '#87372f'
+    ctx.beginPath();
+    ctx.arc(25, 15, 80, 0, 2 * Math.PI);
+    ctx.fill();
+
+
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    let skin = heroSkin
+    let priority= ['face','hair', 'eye']
+
+    let space = 4;
+    let dis = [10, 10]
+
+    for(let i in priority){
+        let part = skin[priority[i]]
+
+        for(let key in part){
+            let draw = part[key]
+            ctx.fillStyle = draw.color
+
+            ctx.fillStyle = draw.color
+
+            draw.points.forEach((p) => {
+                if (Array.isArray(p[0])) {
+                    for (let j = p[0][0]; j <= p[1][0]; j++) {
+                        for (let k = p[0][1]; k <= p[1][1]; k++) {
+                            ctx.fillRect(
+                                j *space + dis[0],
+                                k * space + dis[1],
+                                space,
+                                space
+                            )
+                        }
+                    }
+                } else {
+                    ctx.fillRect(
+                        p[0] * space + dis[0],
+                        p[1] * space + dis[1],
+                        space,
+                        space
+                    )
+                }
+            })
+
+        }
+    }
+}
+
 let renderSkin = (e, skin) => {
 
     let priority = skin.priority

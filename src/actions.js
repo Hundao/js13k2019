@@ -29,14 +29,12 @@ actions['c'] = function () {
 }
 
 actions['right'] = function () {
-    let hero = groups['hero'].elements[0]
     hero.f[0] += 1e11
     hero.face = 1
     moving = true
 }
 
 actions['left'] = function () {
-    let hero = groups['hero'].elements[0]
     hero.f[0] -= 1e11
     hero.face = -1
     moving = true
@@ -74,4 +72,8 @@ actions['x'] = function () {
 
 antiActions['x'] = function(){
 
+}
+
+actions['m'] = function() {
+    stopMusic()
 }

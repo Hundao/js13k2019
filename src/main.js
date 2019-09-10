@@ -9,6 +9,11 @@ const main = () => {
 
     running = gaming
     execute()
+    
+    setTimeout(()=>{
+        
+        playMusic()
+    }, 1000)
 }
 
 window.onload = main

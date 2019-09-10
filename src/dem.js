@@ -1,22 +1,22 @@
-let makeParallelBound = (group, contactPlanes, dis) => {
+// let makeParallelBound = (group, contactPlanes, dis) => {
 
-    for (let key in contactPlanes) {
-        let contactPlane = contactPlanes[key]
-        let e1 = group.elements[contactPlane.element1Index]
-        let e2 = group.elements[contactPlane.element2Index]
+//     for (let key in contactPlanes) {
+//         let contactPlane = contactPlanes[key]
+//         let e1 = group.elements[contactPlane.element1Index]
+//         let e2 = group.elements[contactPlane.element2Index]
 
-        if (e1.lt[0] - dis > e2.rd[0] + dis || e2.lt[0] - dis > e1.rd[0]) {
-            continue
-        }
+//         if (e1.lt[0] - dis > e2.rd[0] + dis || e2.lt[0] - dis > e1.rd[0]) {
+//             continue
+//         }
 
-        if (e1.lt[1] - dis > e1.rd[1] + dis || e2.lt[1] - dis > e1.rd[1] + dis) {
-            continue
-        }
+//         if (e1.lt[1] - dis > e1.rd[1] + dis || e2.lt[1] - dis > e1.rd[1] + dis) {
+//             continue
+//         }
 
-        contactPlane.isBound = true
-    }
+//         contactPlane.isBound = true
+//     }
 
-}
+// }
 
 
 let demStep = () => {
@@ -29,9 +29,6 @@ let demStep = () => {
 
     // F -> A -> V -> X
     verlet()
-
-    // update hero's center
-    updateBc()
 
     // Reset F 
     resetForce()
@@ -137,6 +134,7 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
     }
 
     if (contactPlane.isContact) {
+
         let d = distance(e1.pos, e2.pos)
         let nc = scale(1 / d, minus(e1.pos, e2.pos))
 
@@ -266,33 +264,4 @@ let resetForce = () => {
     }
 }
 
-let updateBc = () => {
-
-    let group = groups['hero']
-    let tx = 0, ty = 0
-
-
-    for (let i in group.elements) {
-        tx += group.elements[i].pos[0]
-        ty += group.elements[i].pos[1]
-    }
-
-    group.bc = [
-        tx / group.elements.length,
-        ty / group.elements.length
-    ]
-
-
-    let lower = group.bc[0] - w * 0.5
-    let upper = group.bc[0] + w * 0.5
-
-    if (lower > 0) {
-        if (upper < mapw) {
-            vx = lower
-        }
-    }
-    else {
-        vx = 0
-    }
-}
 

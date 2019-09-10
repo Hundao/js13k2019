@@ -3,6 +3,7 @@ class ContactPlane {
     constructor(e1Index, e2Index) {
         this.nc = [0, 0]
         this.gc = 0
+        this.dis = 0
 
         this.f = [0, 0]
 

@@ -21,6 +21,7 @@ onresize = function () {
 }
 
 onkeydown = function (e) {
+    // this.console.log(e.keyCode)
     switch (e.keyCode) {
         case 38:
             controlKeys['up'] = true
@@ -49,6 +50,9 @@ onkeydown = function (e) {
         case 88:
             controlKeys['x'] = true
             break
+        case 77:
+            controlKeys['m'] = true
+            break;
     }
 }
 
@@ -80,6 +84,9 @@ onkeyup = function (e) {
             break
         case 88:
             controlKeys['x'] = false
+            break
+        case 77:
+            controlKeys['m'] = false
             break
     }
 }
