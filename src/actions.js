@@ -5,7 +5,7 @@ actions['c'] = function () {
     if (group.canJump) {
 
         let fun = (e) => {
-            e.f[1] -= 1.5e12
+            e.f[1] -= 1e12
         }
 
         if (controlKeys['left']) {

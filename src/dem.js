@@ -90,6 +90,8 @@ let handleContact = () => {
                     contact.contactPlanes[key] = contactPlane
                 }else{
                     let contactPlane = contact.contactPlanes[key]
+                    contactPlane.element1Index = i
+                    contactPlane.element2Index = j
                     _updateContactPlane(e1, e2, contactPlane, contact)
 
                 }
@@ -293,3 +295,4 @@ let updateBc = () => {
         vx = 0
     }
 }
+

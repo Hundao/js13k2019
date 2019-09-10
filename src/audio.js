@@ -70,8 +70,8 @@ var ac = typeof AudioContext !== 'undefined' ? new AudioContext : new webkitAudi
     ],
 
     jumpF = [
-        'B5 s',
-        'C5 s'
+        'B2 s',
+        'C2 s'
     ]
 
     // create 3 new sequences (one for lead, one for harmony, one for bass)
@@ -107,7 +107,7 @@ jumpAudio.mid.gain.value = 3;
 
 let playMusic = ()=>{
     mainAudio.play()
-    sequence2.play()
+    subAudio.play()
 }
 
 let playJumpAudio = ()=>{

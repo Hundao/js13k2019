@@ -3,7 +3,7 @@ let initHero = () => {
     let contact = new Contact('hero', 'hero', 1e8, 1e3)
 
     group.elements.push(
-        new Rectangle(0, 300, 400, 20, 40, 0, 0, 15),
+        new Rectangle(0, 100, 400, 20, 40, 0, 0, 15),
     )
 
 
@@ -23,10 +23,14 @@ let initHero = () => {
 initGround = () => {
     let group = new Group('ground', 0, 0, true)
     group.elements.push(
-        new Rectangle(0, 0, 550, mapw, 200, 0, 0, 9999),
-        // new Rectangle(1, 0, 0, 200, h, 0, 0, 9999),
-        // new Rectangle(2, 1200, 100, 1200, 1200, 0, 0, 9999),
-        // new Rectangle(3, 2200, 400, 800, 200, 0, 0, 9999)
+        new Rectangle(0,   0, 550, 200, 90, 0, 0, 9999),
+        new Rectangle(0, 200, 140, 150, 500, 0, 0, 9999),
+        new Rectangle(1, 350, 400, 600, 240, 0, 0, 9999),
+        new Rectangle(2, 950, 60, 120, 640, 0, 0, 9999),
+        new Rectangle(3, 1070, 500, 800, 140, 0, 0, 9999),
+        new Rectangle(4, 1200, 150, 820, 140, 0, 0, 9999),
+        new Rectangle(5, 1870, 150, 150, 490, 0, 0, 9999),
+        new Rectangle(6, 2020, 500, 980, 140, 0, 0, 9999),
     )
 
     contact = new Contact('hero', 'ground', 1e8, 100)
@@ -48,8 +52,8 @@ initGround = () => {
         e.stones = []
         let num = den * e.len.w * e.len.h
         for(let s = 0; s < num; s++){
-            let x = Math.random() * e.len.w
-            let y = Math.random() * ( e.len.h)
+            let x = Math.random() * (e.len.w - 20)
+            let y = Math.random() * ( e.len.h - 40)
 
             let type = Math.floor(Math.random()* 5)
 
@@ -105,7 +109,7 @@ initEnemy = () => {
 initArrow = () =>{
     let group = new Group('arrow', 50, 0.999999, false)
 
-    contact = new Contact('arrow', 'ground', 1e7, 0)
+    contact = new Contact('arrow', 'ground', 1e12, 0)
 
     for(let i =0; i < group.elements.length; i++){
         for(let j = 0 ; j < groups['ground'].elements.length; j++){

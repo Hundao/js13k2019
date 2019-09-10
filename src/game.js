@@ -12,6 +12,7 @@ let gaming = () => {
     }
 
     handleControl()
+    handleArrowContact()
     makeSnapshot()
 }
 
@@ -125,14 +126,6 @@ let enemyTimeBack = () => {
         console.log('snapshot is no more')
     }
 
-    group = groups['arrow']
-    if (group.snapshots.length > 0) {
-        _copyState(group)
-        group.snapshots.pop()
-    } else {
-        console.log('snapshot is no more')
-    }
-
     if (controlKeys['w'] === false) {
         running = gaming
     }
@@ -158,5 +151,35 @@ let _copyState = (group, move = false) => {
         vx = snapshot.vx
     }
 
+
+}
+
+let handleArrowContact = ()=>{
+
+    let alive = []
+    let dead = {}
+
+    //handle with group
+    
+    for(let key in difGupContacts['arrow-ground'].contactPlanes){
+        let plane = difGupContacts['arrow-ground'].contactPlanes[key]
+        if(plane.isContact){
+            dead[plane.element1Index] = true
+        }
+    }
+
+    //handle arrive bounding
+    groups['arrow'].elements.forEach((e, i)=>{
+        if(e.lt[0] <= bound.lX+1 || e.rd[0] >= bound.uX -1 ){
+            dead[i] = true
+        } 
+    })
+
+
+    groups['arrow'].elements = groups['arrow'].elements.filter((e, i)=>{
+        return (!dead[i])
+    })
+
+    difGupContacts['arrow-ground'].contactPlanes= {}
 
 }
