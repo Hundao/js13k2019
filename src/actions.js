@@ -23,6 +23,7 @@ actions['c'] = function () {
         }
 
         group.elements.forEach(fun)
+        playJumpAudio()
         group.canJump = false
     }
 }

@@ -1,140 +1,121 @@
 // create the audio context
 var ac = typeof AudioContext !== 'undefined' ? new AudioContext : new webkitAudioContext,
-  
-  // set the tempo
-  tempo = 90,
-  // initialize some vars
-  sequence1,
-  sequence2,
 
-  // create an array of "note strings" that can be passed to a sequence
-  lead = [
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
+    // set the tempo
+    tempo = 240,
+    // initialize some vars
+    mainAudio,
+    subAudio,
+    shootMus,
+    jumpMus,
+    
 
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
+    // create an array of "note strings" that can be passed to a sequence
+    lead = [
+        '- h', 'A4 h', 'Bb4 h', 'D5 h',
+        'C5 h', 'Bb4 q', 'A4 q', 'G4 h', 'C4 h',
+        'F4 h', 'G4 h', 'A4 h', 'Bb4 q', 'A4 q',
+        'G4 8',
+        '- h', 'A3 h', 'Bb3 h', 'D4 h',
+        'C4 w', 'G4 q', 'A4 q', 'Bb4 q', 'G4 q',
+        'A4 h', 'A3 h', 'Bb3 h', 'Bb4 h',
+        'G4 h', 'G4 q', 'A4 q', 'Bb4 h', 'G4 h',
+        'A4 w', 'C5 w', 
+        'Bb4 6', 'A4 q',
+        'D5 w', 'C5 w',
+        'G4 h', 'G4 q', 'A4 q', 'Bb4 w', 'G4 w',
+        'A4 w', 'C5 w',
+        'Bb4 6', 'A4 h',
+        'D5 q', 'E4 q', 'C5 q', 'C3 q',
+        'C5 h', 'G4 q', 'A4 q', 'Bb4 h', 'B4 h',
+        'C5 h', 'G4 q', 'A4 q', 'Bb4 h', 'B4 h',
+        'C5 h', 'G4 q', 'A4 q', 'Bb4 h', 'B4 h',
+        'C5 h', 'G4 q', 'A4 q', 'Bb4 h', 'B4 h', //
+        'C5 h', 'A4 q', 'Bb4 q', 'C5 h', 'Db5 h',
+        'D5 h', 'Bb4 q', 'C5 q', 'D5 h', 'E5 h',
+        'F5 h', 'D5 q', 'E5 q', 'F5 h', 'G5 h',
+        'A5 h', 'A5 h', 'Bb5 h', 'D6 h',
 
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
+    ],
 
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
+    horn = [
+        'C3 8',
+        'C3 8',
+        'C3 8',
+        'C3 8',
+        'F3 w', 'D3 w', 
+        'E3 w', 'C3 w',
+        'F3 w', 'D3 w',
+        'E3 6', 'C3 h',
+        'F3 w', 'C4 w',
+        'C4 6', 'F3 q',
+        'B2 w', 'C4 w',
+        'C4 8',
+        'F3 w', 'A3 w',
+        'G3 6', 'F3 h',
+        'F3 w', 'F3 w',
+        'G3 6', 'D4 h',
+        'G3 6', 'D4 h',
+        'G3 6', 'D4 h',
+        'G3 h', '- 6' , //
+        '- h', 'A3 q', 'Bb3 q', 'C4 h', 'Cb4 h',
+        'D4 h', 'Bb3 q', 'C4 q', 'D4 h', 'E4 h',
+        'F4 h', 'D4 q', 'E4 q', 'F4 h', 'G4 h',
+        'C3 h', 'C3 h', 'C3 h', '3 h3'
+    ],
 
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
+    fen = 0.125,
+    shootF = [
+        `G3 ${fen}`, `A3 ${fen}`, `B3 ${fen}`, `C4 ${fen}`, `D4 ${fen}`, `E4 ${fen}`
+    ],
 
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
+    jumpF = [
+        'B5 s',
+        'C5 s'
+    ]
 
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
-
-    'Ab4 s',
-    'Db5 s',
-    'E5 s',
-
-    'A4 s',
-    'Db5 s',
-    'E5 s',
-
-    'A4 s',
-    'Db5 s',
-    'E5 s',
-
-    'A4 s',
-    'D5 s',
-    'Gb5 s',
-
-    'A4 s',
-    'D5 s',
-    'Gb5 s',
-
-    'Ab4 s',
-    'C5 s',
-    'Gb5 s',
-
-    'Ab4 s',
-    'Db5 s',
-    'Gb5 s',
-
-    'Ab4 s',
-    'Db5 s',
-    'Eb5 s',
-
-    'Gb4 s',
-    'B5 s',
-    'Eb5 s',
-  ],
-
-  harmony = [
-      'Db3 h',
-      '- q',
-
-      'B2 h',
-      '- q',
-
-      'A2 q',
-      '- e',
-      'Gb2 q',
-      '- e',
-
-      'Ab2 q',
-      '- e',
-      'Ab2 q',
-      '- e',
-
-  ],
-
-  space = [
-   'B3 s',
-   'Cb5 e',
- ],
-
- hurt = [
-   'Ab2 s',
-   'Gb2 s',
- ],
-
- eat = [
-    // 'B5 e',
-    'C4 s',
-    'C5 e',
- ],
-
- dead  = [
-   'Ab2 s',
-    'Gb2 s',
-    'C2 e',
- ]
- ;
-
-  // create 3 new sequences (one for lead, one for harmony, one for bass)
-sequence1 = new TinyMusic.Sequence( ac, tempo, lead );
-sequence2 = new TinyMusic.Sequence( ac, tempo, harmony );
+    // create 3 new sequences (one for lead, one for harmony, one for bass)
+    mainAudio = new TinyMusic.Sequence(ac, tempo, lead)
+    subAudio = new TinyMusic.Sequence(ac, tempo, horn)
+    jumpAudio = new TinyMusic.Sequence(ac, tempo, jumpF)  
+    shootAudio = new TinyMusic.Sequence(ac, tempo, shootF)
 
 var sequences = [];
 // //cloase the loop play
-sequence1.loop = false;
+mainAudio.loop = true;
+subAudio.loop = true;
+jumpAudio.loop = false;
+shootAudio.loop = false;
+// sequence1.smoothing = 0.1
 
 // set staccato and smoothing values for maximum coolness
-sequence1.staccato = 0.55;
-sequence2.staccato = 0.55;
-
+mainAudio.staccato = 0.55;
+subAudio.staccato = 0.55;
+jumpAudio.staccato = 0.55;
+shootAudio.staccato = 0.55;
 
 // adjust the levels so the bass and harmony aren't too loud
-sequence1.gain.gain.value = 0.1;
-sequence2.gain.gain.value = 0.1;
-
+mainAudio.gain.gain.value = 0.1;
+subAudio.gain.gain.value = 0.05;
+jumpAudio.gain.gain.value = 0.03;
+shootAudio.gain.gain.value = 0.03;
 
 // apply EQ settings
-sequence1.mid.frequency.value = 1000;
-sequence1.mid.gain.value = 3;
-sequence2.mid.frequency.value = 1000;
+mainAudio.mid.frequency.value = 1000;
+mainAudio.mid.gain.value = 3;
+jumpAudio.mid.gain.value = 3;
+
+let playMusic = ()=>{
+    mainAudio.play()
+    sequence2.play()
+}
+
+let playJumpAudio = ()=>{
+    jumpAudio.stop()
+    jumpAudio.play()
+}
+
+let playShootMusic = () =>{
+    shootAudio.stop()
+    shootAudio.play()
+}

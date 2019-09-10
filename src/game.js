@@ -36,7 +36,7 @@ let handleControl = () => {
         let arrow = groups['arrow']
         let hero = groups['hero'].elements[0]
         let v = scale(bowForce, [hero.face, -0.1])
-
+        playShootMusic()
         arrow.elements.push(
             new Rectangle(
                 arrow.elements.length,
