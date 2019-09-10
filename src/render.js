@@ -86,8 +86,9 @@ let drawHero = () => {
 }
 
 let drawEnemy = () => {
-    ctx.fillStyle = '#db3f27'
+    ctx.fillStyle = '#2c362e'
     let group = groups['enemy']
+    
     group.elements.forEach((e) => {
         ctx.fillRect(
             e.lt[0] - vx,

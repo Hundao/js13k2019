@@ -156,7 +156,6 @@ let _copyState = (group, move = false) => {
 
 let handleArrowContact = ()=>{
 
-    let alive = []
     let dead = {}
 
     //handle with group
@@ -181,5 +180,6 @@ let handleArrowContact = ()=>{
     })
 
     difGupContacts['arrow-ground'].contactPlanes= {}
+
 
 }

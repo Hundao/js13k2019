@@ -91,10 +91,10 @@ initEnemy = () => {
 
     group.elements.push(
         // new Rectangle(0, 500, 400, 60, 60, -1e10, 0, 55)
-        new Rectangle(0, 500, 400, 10, 10, 0, 0, 55)
+        new Rectangle(0, 500, 200, 100, 100, 0, 0, 55)
     )
 
-    contact = new Contact('enemy', 'ground', 1e7, 100)
+    contact = new Contact('enemy', 'ground', 1e12, 100)
 
     for(let i =0; i < group.elements.length; i++){
         for(let j = 0 ; j < groups['ground'].elements.length; j++){
