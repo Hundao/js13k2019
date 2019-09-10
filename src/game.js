@@ -234,10 +234,11 @@ let handleEnemyMove = () =>{
             let dis = distance(hero.pos, e.pos)
             if(dis < 500){
                 let target = hero.pos[0] > e.pos[0] ? 1 : -1
-                e.f = plus(e.f, scale(dis * 1e11, [target, -10]))
+                e.face = target
+                e.f = plus(e.f, scale(3e12, [target, -10]))
                 
                 e.canMove = false
-                setTimeout(()=>e.canMove= true, 1500)
+                setTimeout(()=>e.canMove= true, 100)
             }
         }
     })

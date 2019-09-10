@@ -12,8 +12,8 @@ let drawBackground = () => {
 
 
     ctx.fillStyle = '#9BADCE'
-    sky.forEach((e)=>{
-        ctx.fillRect(e[0] -vx, e[1], 5.5, 5.5);
+    sky.forEach((e) => {
+        ctx.fillRect(e[0] - vx, e[1], 5.5, 5.5);
     })
 }
 
@@ -24,34 +24,34 @@ let drawGround = () => {
     let h2 = 15
 
     group.elements.forEach((e) => {
- 
+
         ctx.fillStyle = '#3CA836'
         ctx.fillRect(
             e.lt[0] - vx,
             e.lt[1],
-            e.len.w,
+            e.len.w + 1,
             h1
         )
-        
+
         ctx.fillStyle = '#978426'
         ctx.fillRect(
             e.lt[0] - vx,
             e.lt[1] + h1,
-            e.len.w,
+            e.len.w + 1,
             h2
         )
 
         ctx.fillStyle = '#A94823'
-        
+
         ctx.fillRect(
             e.lt[0] - vx,
             e.lt[1] + h1 + h2,
-            e.len.w,
+            e.len.w + 1,
             e.len.h
         )
 
         ctx.fillStyle = '#A98F81'
-        e.stones.forEach((p)=>{
+        e.stones.forEach((p) => {
             ctx.fillRect(
                 p[0] - vx + e.lt[0],
                 p[1] + e.lt[1],
@@ -71,31 +71,28 @@ let drawHero = () => {
     let hero = groups['hero'].elements[0]
     let skin = heroSkin
 
-    if(shooting && moving){
+    if (shooting && moving) {
         skin = heroMoveAndShoot
     }
-    else if(shooting){
+    else if (shooting) {
         skin = heroShootSkin
     }
-    else if(moving){
+    else if (moving) {
         skin = heroMoveSkin
     }
 
-    renderSkin(hero, skin)
+    renderSkin(hero, skin, 1, 1)
 
 }
 
+const enemySkins = [monsterSkin2, monsterSkin2, monsterSkin1]
 let drawEnemy = () => {
     ctx.fillStyle = '#2c362e'
     let group = groups['enemy']
-    
-    group.elements.forEach((e) => {
-        ctx.fillRect(
-            e.lt[0] - vx,
-            e.lt[1],
-            e.len.w,
-            e.len.h
-        )
+    let skin = monsterSkin1
+
+    group.elements.forEach((e, i) => {
+        renderSkin(e, enemySkins[i], 5, 5)
     })
 }
 
@@ -112,7 +109,7 @@ let drawArrow = () => {
     let group = groups['arrow']
     group.elements.forEach((e) => {
 
-        renderSkin(e, arrowSkin)
+        renderSkin(e, arrowSkin, 1, 1)
     })
 }
 
@@ -131,7 +128,7 @@ let drawHead = () => {
     ctx.fillRect(100, 20, hpw, 20)
 
     ctx.fillStyle = '#474646'
-    ctx.fillRect(100+ hpw, 20, losew, 20)
+    ctx.fillRect(100 + hpw, 20, losew, 20)
 
     //draw 
     ctx.fillStyle = '#87372f'
@@ -144,15 +141,15 @@ let drawHead = () => {
     ctx.stroke();
 
     let skin = heroSkin
-    let priority= ['face','hair', 'eye']
+    let priority = ['face', 'hair', 'eye']
 
     let space = 4;
     let dis = [10, 10]
 
-    for(let i in priority){
+    for (let i in priority) {
         let part = skin[priority[i]]
 
-        for(let key in part){
+        for (let key in part) {
             let draw = part[key]
             ctx.fillStyle = draw.color
 
@@ -163,7 +160,7 @@ let drawHead = () => {
                     for (let j = p[0][0]; j <= p[1][0]; j++) {
                         for (let k = p[0][1]; k <= p[1][1]; k++) {
                             ctx.fillRect(
-                                j *space + dis[0],
+                                j * space + dis[0],
                                 k * space + dis[1],
                                 space,
                                 space
@@ -184,7 +181,7 @@ let drawHead = () => {
     }
 }
 
-let renderSkin = (e, skin) => {
+let renderSkin = (e, skin, sw, sh) => {
 
     let priority = skin.priority
 
@@ -196,25 +193,26 @@ let renderSkin = (e, skin) => {
                 let draw = part[key]
 
                 ctx.fillStyle = draw.color
-
+                console.log(skin)
+                console.log('key', key)
                 draw.points.forEach((p) => {
                     if (Array.isArray(p[0])) {
                         for (let j = p[0][0]; j <= p[1][0]; j++) {
                             for (let k = p[0][1]; k <= p[1][1]; k++) {
                                 ctx.fillRect(
-                                    j + e.lt[0] - vx,
-                                    k + e.lt[1],
-                                    1,
-                                    1
+                                    e.lt[0] + j * sw - vx,
+                                    e.lt[1] + k * sh,
+                                    sw + 1,
+                                    sh + 1
                                 )
                             }
                         }
                     } else {
                         ctx.fillRect(
-                            p[0] + e.lt[0] - vx,
-                            p[1] + e.lt[1],
-                            1,
-                            1
+                            e.lt[0] + p[0] * sw - vx,
+                            e.lt[1] + p[1] * sh,
+                            sw + 1,
+                            sh + 1
                         )
                     }
                 })
@@ -230,24 +228,25 @@ let renderSkin = (e, skin) => {
 
                 ctx.fillStyle = draw.color
 
+                let len = e.len.w / sw
                 draw.points.forEach((p) => {
                     if (Array.isArray(p[0])) {
-                        for (let j = e.len.w - p[1][0]; j <= e.len.w - p[0][0]; j++) {
+                        for (let j = len - p[1][0]; j <= len - p[0][0]; j++) {
                             for (let k = p[0][1]; k <= p[1][1]; k++) {
                                 ctx.fillRect(
-                                    j + e.lt[0] - vx,
-                                    k + e.lt[1],
-                                    1,
-                                    1
+                                    e.lt[0] + j * sw - vx,
+                                    e.lt[1] + k * sh,
+                                    sw,
+                                    sh
                                 )
                             }
                         }
                     } else {
                         ctx.fillRect(
-                            e.len.w - p[0] + e.lt[0] - vx,
-                            p[1] + e.lt[1],
-                            1,
-                            1
+                            e.lt[0] + (len - p[0]) * sw - vx,
+                            e.lt[1] + p[1] * sh,
+                            sw,
+                            sh
                         )
                     }
                 })

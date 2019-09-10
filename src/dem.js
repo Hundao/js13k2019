@@ -115,8 +115,18 @@ let handleContact = () => {
                 let e1 = group.elements[i]
                 let e2 = group.elements[j]
 
-                let contactPlane = contact.contactPlanes[`${i}-${j}`]
-                _updateContactPlane(e1, e2, contactPlane, contact)
+                let key = `${i}-${j}`
+                if(!contact.contactPlanes.hasOwnProperty(key)){
+                    let contactPlane = new ContactPlane(i, j)
+                    _updateContactPlane(e1, e2, contactPlane, contact)
+                    contact.contactPlanes[key] = contactPlane
+                }else{
+                    let contactPlane = contact.contactPlanes[key]
+                    contactPlane.element1Index = i
+                    contactPlane.element2Index = j
+                    _updateContactPlane(e1, e2, contactPlane, contact)
+
+                }
             }
         }
     }

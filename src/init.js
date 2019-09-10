@@ -94,11 +94,14 @@ initEnemy = () => {
     let group = new Group('enemy', 100, 0.99, false)
 
     group.elements.push(
-        new Rectangle(0, 500, 200, 100, 100, 0, 0, 55)
+        new Rectangle(0, 500, 200, 100, 100, 0, 0, 55),
+        new Rectangle(1, 700, 200, 100, 100, 0, 0, 55),
+        new Rectangle(2, 1600, 200, 100, 100, 0, 0, 55)
     )
 
-    let contact = new Contact('enemy', 'ground', 1e12, 100)
+    let contact = new Contact('enemy', 'ground', 9e9, 100)
     let contactHero = new Contact('enemy', 'hero', 1e10, 100)
+    let contactEnemy = new Contact('enemy', 'enemy', 1e10, 100)
 
     group.elements.forEach((e)=>{
         e.canMove = true
@@ -107,6 +110,7 @@ initEnemy = () => {
     groups['enemy'] = group
     difGupContacts['enemy-ground'] = contact
     difGupContacts['enemy-hero'] = contactHero
+    sameGupContacts['enemy-enemy'] = contactEnemy
 }
 
 initArrow = () =>{
