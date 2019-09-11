@@ -21,6 +21,7 @@ let
     shooting = false,
     moving = false,
     sky = [],
+    superTime = 1000,
 
     groups = {},
     user = {
@@ -36,7 +37,12 @@ let
         uY: 1000,
         lX: 0,
         lY: 0
-    }
+    },
 
-    envGroups=[]
+    stoneConfig = {
+        den:0.0002,
+        space:10
+    },
+    
+    demStepInPerFrame = 100
 ; 

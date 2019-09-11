@@ -2,7 +2,7 @@
 // jump
 actions['c'] = function () {
     let group = groups['hero']
-    if (group.canJump) {
+    if (hero.canJump) {
 
         let fun = (e) => {
             e.f[1] -= 1e12
@@ -24,7 +24,7 @@ actions['c'] = function () {
 
         group.elements.forEach(fun)
         playJumpAudio()
-        group.canJump = false
+        hero.canJump = false
     }
 }
 

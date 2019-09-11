@@ -68,7 +68,6 @@ let drawGround = () => {
 let drawHero = () => {
     ctx.fillStyle = 'blue'
 
-    let hero = groups['hero'].elements[0]
     let skin = heroSkin
 
     if (shooting && moving) {
@@ -85,14 +84,12 @@ let drawHero = () => {
 
 }
 
-const enemySkins = [monsterSkin2, monsterSkin2, monsterSkin1]
 let drawEnemy = () => {
     ctx.fillStyle = '#2c362e'
     let group = groups['enemy']
-    let skin = monsterSkin1
 
     group.elements.forEach((e, i) => {
-        renderSkin(e, enemySkins[i], 5, 5)
+        renderSkin(e, e.skin, 5, 5)
     })
 
     drawBoss()
@@ -130,8 +127,8 @@ let drawHead = () => {
     ctx.lineJoin = "round";
     ctx.strokeRect(98, 18, 205, 24);
 
-    let hpw = user.hp / user.maxHp * 200
-    let losew = (user.maxHp - user.hp) / user.maxHp * 200
+    let hpw = hero.hp / hero.maxHp * 200
+    let losew = (hero.maxHp - hero.hp) / hero.maxHp * 200
 
     ctx.fillStyle = '#E61E18'
     ctx.fillRect(100, 20, hpw, 20)
