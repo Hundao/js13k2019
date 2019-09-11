@@ -113,36 +113,32 @@ initEnemy = () => {
     sameGupContacts['enemy-enemy'] = contactEnemy
 }
 
+initBoss = () => {
+    let group = new Group('boss', 100, 0.99, true)
+    
+    group.elements.push(
+        new Rectangle(0, 2723, 100, 200, 400, 0, 0, 55),
+    )
+
+    groups['boss'] = group
+}
+
 initArrow = () =>{
     let group = new Group('arrow', 50, 0.999999, false)
 
     contact = new Contact('arrow', 'ground', 1e12, 0)
-
-    for(let i =0; i < group.elements.length; i++){
-        for(let j = 0 ; j < groups['ground'].elements.length; j++){
-            let key = `${i}-${j}`
-            contact.contactPlanes[key] = new ContactPlane(i, j)
-        }
-    }
-
     contactEnemy = new Contact('arrow', 'enemy', 1e10, 0)
-    for(let i =0; i < group.elements.length; i++){
-        for(let j = 0 ; j < groups['enemy'].elements.length; j++){
-            let key = `${i}-${j}`
-            contactEnemy.contactPlanes[key] = new ContactPlane(i, j)
-        }
-    }
+    contactBoss = new Contact('arrow', 'boss', 1e10, 0)
 
     difGupContacts['arrow-ground'] = contact
     difGupContacts['arrow-enemy'] = contactEnemy
-
+    difGupContacts['arrow-boss'] = contactBoss
     groups['arrow'] = group
 }
 
 initSky = () =>{
     let den = 0.001
     let num = w * h * 0.3333 * den
-    console.log('num', num)
 
     for(let i = 0; i < num; i++){
         let x = Math.random() * mapw

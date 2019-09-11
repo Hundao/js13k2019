@@ -1,13 +1,13 @@
 events = []
-happend = [ true, true]
+happend = [ true, true, true]
 
 events.push((i, force)=>{
     if(!happend[i]) return
 
     if(hero.pos[0] > 1078 && hero.pos[1] > 450 || force){
         running = eventing
-        groupMove(5, 0, -130)
-        groupMove(6, 1, 150)
+        groupMove('ground', 5, 0, -130)
+        groupMove('ground', 6, 1, 150)
         happend[i] = false
     }
 
@@ -19,26 +19,30 @@ events.push((i, force)=>{
 
     if(hero.pos[0] > 2200 && hero.pos[1] > 450 || force){
         running = eventing
-        groupMove(6, 1, -150)
+        groupMove('ground', 6, 1, -150)
 
         happend[i] = false
     }
 })
 
 events.push((i, force)=>{
-    if(happend[i]) return
+    if(!happend[i]) return
 
     if(hero.pos[0] > 2340 || force){
         fixed = true
         vx = 1955
+
+        
+        groupMove('boss', 0, 0, -200)
+        happend[i] = false
     }
 
 })
 
-let groupMove = (index, dir, dis) =>{
+let groupMove = (groupKey, index, dir, dis) =>{
 
     let divide = dis * 0.01
-    let e =  groups['ground'].elements[index]
+    let e =  groups[groupKey].elements[index]
     let oriLt = e.lt[dir]
 
     for(let i = 0; i < 100; i++){
@@ -54,3 +58,24 @@ let groupMove = (index, dir, dis) =>{
         e.lt[dir] = oriLt + dis
     }, 2000)
 }
+
+
+
+let skepEvent = () => {
+    running = eventing
+    groupMove(5, 0, -130)
+    groupMove(6, 1, 150)
+    running = eventing
+    // groupMove(6, 1, -150)
+
+    happend[0] = false
+    happend[1] = false
+}
+
+
+let showBoss = ()=>{
+    vx = 1955
+    fixed = true
+}
+// vx = 1955
+// fixed = true

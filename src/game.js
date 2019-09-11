@@ -193,6 +193,13 @@ let handleArrowContact = ()=>{
         }
     }
 
+    for(let key in difGupContacts['arrow-boss'].contactPlanes){
+        let plane = difGupContacts['arrow-boss'].contactPlanes[key]
+        if(plane.isContact){
+            dead[plane.element1Index] = true
+        }
+    }
+
     //handle arrive bounding
     groups['arrow'].elements.forEach((e, i)=>{
         if(e.lt[0] <= bound.lX+1 || e.rd[0] >= bound.uX -1 ){
@@ -207,6 +214,7 @@ let handleArrowContact = ()=>{
 
     difGupContacts['arrow-ground'].contactPlanes= {}
     difGupContacts['arrow-enemy'].contactPlanes= {}
+    difGupContacts['arrow-boss'].contactPlanes= {}
 }
 
 let handleHeroAttaced = ()=>{

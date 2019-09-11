@@ -6,14 +6,15 @@ const main = () => {
     initGround()
     initEnemy()
     initArrow()
+    initBoss()
 
     running = gaming
     execute()
     
-    setTimeout(()=>{
+    // setTimeout(()=>{
         
-        playMusic()
-    }, 1000)
+    //     playMusic()
+    // }, 1000)
 }
 
 window.onload = main

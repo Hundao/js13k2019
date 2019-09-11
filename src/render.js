@@ -94,6 +94,8 @@ let drawEnemy = () => {
     group.elements.forEach((e, i) => {
         renderSkin(e, enemySkins[i], 5, 5)
     })
+
+    drawBoss()
 }
 
 let drawBackEffect = (color1, color2) => {
@@ -113,6 +115,13 @@ let drawArrow = () => {
     })
 }
 
+let drawBoss = () =>{
+    let skin = bossSkin
+    let boss = groups['boss'].elements[0]
+    boss.face = 1
+    
+    renderSkin(boss, skin, 10, 10)
+}
 
 let drawHead = () => {
 
@@ -193,8 +202,6 @@ let renderSkin = (e, skin, sw, sh) => {
                 let draw = part[key]
 
                 ctx.fillStyle = draw.color
-                console.log(skin)
-                console.log('key', key)
                 draw.points.forEach((p) => {
                     if (Array.isArray(p[0])) {
                         for (let j = p[0][0]; j <= p[1][0]; j++) {
