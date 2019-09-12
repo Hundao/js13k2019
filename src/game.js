@@ -11,7 +11,27 @@ let winning = () =>{
 }
 
 let starting = () =>{
+    drawBackground()
+    drawGround()
+    drawHero()
+    drawEnemy()
+    drawArrow()
+    drawTitle()
+    
 
+    for (let i = 0; i < demStepInPerFrame; i++) {
+        demStep()
+    }
+
+    
+    handleControl()
+    handleArrowContact()
+    handleShooting()
+    handleHeroCanJump()
+    handleResetContactPlane()
+    handleEnemyDie()
+    handleIdel()
+    handleEnterGaming()
 }
 
 

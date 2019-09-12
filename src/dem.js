@@ -73,7 +73,7 @@ let handleContact = () => {
         let contact = difGupContacts[key]
         let group1 = groups[contact.group1Index]
         let group2 = groups[contact.group2Index]
-
+        
         for (let i = 0; i < group1.elements.length; i++) {
             for (let j = 0; j < group2.elements.length; j++) {
                 let e1 = group1.elements[i]
@@ -123,11 +123,16 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
         contactPlane.isEverContact = true
 
         let d = distance(e1.pos, e2.pos)
-        let nc = scale(1 / d, minus(e1.pos, e2.pos))
+        // let nc = scale(1 / d, minus(e1.pos, e2.pos))
 
-        if (nc[0] === 0 && nc[1] === 0) {
-            nc = [1, 0]
-        }
+        // if (nc[0] === 0 && nc[1] === 0) {
+        //     nc = [1, 0]
+        // }
+
+        // let nc= [0,0]
+
+
+
 
         let maxX = Math.max(e1.lt[0], e1.rd[0], e2.lt[0], e2.rd[0])
         let minX = Math.min(e1.lt[0], e1.rd[0], e2.lt[0], e2.rd[0])
@@ -137,59 +142,77 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
         let overlapX = (e1.len.w + e2.len.w) - (maxX - minX)
         let overlapY = (e1.len.h + e2.len.h) - (maxY - minY)
 
-
-        let doing = true
-        if(e1.len.w > e2.len.w){            
-            if(overlapX * overlapY === e2.len.w * e2.len.h){
-                nc = contactPlane.nc
-                doing = false
+        if(overlapX > overlapY){
+            if(e1.rd[1] > e2.lt[1] && e1.pos[1] < e2.pos[1]){
+                nc = [0, 1]
+            }else{
+                nc = [0, -1]
             }
-            else if(overlapX === e2.len.w){
-                if(nc[1] > 0){
-                    nc = [0, 1]
-                    doing = false
-                }
-                else{
-                    nc = [0, -1]
-                    doing = false
-                }
-            }
-        }
-        else{            
-            if(overlapX * overlapY === e1.len.w * e1.len.h){
-                nc = contactPlane.nc
-                doing = false
-            }
-            else if(overlapX === e1.len.w){
-                if(nc[1] > 0){
-                    nc = [0, 1]
-                    doing = false
-                }
-                else{
-                    nc = [0, -1]
-                    doing = false
-                }
+        }else{
+            if(e1.rd[0] > e2.lt[0] && e1.pos[0] < e2.pos[0]){
+                nc = [1, 0]
+            }else {
+                nc = [-1, 0]
             }
         }
 
-        if(e1.len.h > e2.len.h && doing){
-            if(overlapY === e2.len.h){
-                if(nc[0] > 0){
-                    nc = [1, 0]
-                }else{
-                    nc = [-1, 0]
-                }
-            }
-        }
-        else if(doing){
-            if(overlapY === e1.len.h){
-                if(nc[0] > 0){
-                    nc = [1, 0]
-                }else{
-                    nc = [-1, 0]
-                }
-            }
-        }
+        // if(e1 === hero){
+        //     console.log(nc)
+        // }
+
+
+        // let doing = true
+        // if(e1.len.w > e2.len.w){            
+        //     if(overlapX * overlapY === e2.len.w * e2.len.h){
+        //         nc = contactPlane.nc
+        //         doing = false
+        //     }
+        //     else if(overlapX === e2.len.w){
+        //         if(nc[1] > 0){
+        //             nc = [0, 1]
+        //             doing = false
+        //         }
+        //         else{
+        //             nc = [0, -1]
+        //             doing = false
+        //         }
+        //     }
+        // }
+        // else{            
+        //     if(overlapX * overlapY === e1.len.w * e1.len.h){
+        //         nc = contactPlane.nc
+        //         doing = false
+        //     }
+        //     else if(overlapX === e1.len.w){
+        //         if(nc[1] > 0){
+        //             nc = [0, 1]
+        //             doing = false
+        //         }
+        //         else{
+        //             nc = [0, -1]
+        //             doing = false
+        //         }
+        //     }
+        // }
+
+        // if(e1.len.h > e2.len.h && doing){
+        //     if(overlapY === e2.len.h){
+        //         if(nc[0] > 0){
+        //             nc = [1, 0]
+        //         }else{
+        //             nc = [-1, 0]
+        //         }
+        //     }
+        // }
+        // else if(doing){
+        //     if(overlapY === e1.len.h){
+        //         if(nc[0] > 0){
+        //             nc = [1, 0]
+        //         }else{
+        //             nc = [-1, 0]
+        //         }
+        //     }
+        // }
 
         contactPlane.gc = overlapX * overlapY
         contactPlane.nc = nc
@@ -215,7 +238,7 @@ let receiveForce = () => {
         for (let i in contact.contactPlanes) {
             let contactPlane = contact.contactPlanes[i]
             if (!contactPlane.isContact) continue 
-            
+
             let e1 = group1.elements[contactPlane.element1Index]
             let e2 = group2.elements[contactPlane.element2Index]
 

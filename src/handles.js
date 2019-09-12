@@ -200,18 +200,20 @@ let handleEnemyDie = () =>{
         return e.hp > 0
     })
 
-    if(boss.hp < 0){
-        running = winning
-
-        for(let i = 0; i < 100; i++){
-            setTimeout(()=>{
-                winCap = i * 0.01
-            }, i* 50)
-
-            setTimeout(()=>{
-                initAll()
-                running = gaming
-            }, 5000)
+    if(boss){
+        if(boss.hp < 0){
+            running = winning
+    
+            for(let i = 0; i < 100; i++){
+                setTimeout(()=>{
+                    winCap = i * 0.01
+                }, i* 50)
+    
+                setTimeout(()=>{
+                    initGaming()
+                    running = gaming
+                }, 5000)
+            }
         }
     }
 }
@@ -289,5 +291,22 @@ let _copyState = (group, move = false) => {
 
     if (move) {
         vx = snapshot.vx
+    }
+}
+
+
+//----------------------------------------------- Handle Starting Page------------------------------------------------
+
+
+let handleIdel = () =>{
+    if(hero.pos[1] > 700){
+        initStarting()
+    }
+}
+
+let handleEnterGaming = () =>{
+    if(groups['enemy'].elements.length === 0){
+        initGaming()
+        running = gaming
     }
 }

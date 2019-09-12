@@ -1,9 +1,9 @@
 
 const main = () => {
     onresize()
-    initAll()
+    initStarting()
 
-    running = gaming
+    running = starting
     execute()
     
     // setTimeout(()=>{

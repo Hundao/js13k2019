@@ -88,11 +88,13 @@ let drawEnemy = () => {
     ctx.fillStyle = '#2c362e'
     let group = groups['enemy']
 
-    group.elements.forEach((e, i) => {
+    group.elements.forEach((e) => {
         renderSkin(e, e.skin, 5, 5)
     })
 
-    drawBoss()
+    if(boss){
+        drawBoss()
+    }
 }
 
 let drawBackEffect = (color1, color2) => {
@@ -199,7 +201,6 @@ let drawHead = () => {
 let renderSkin = (e, skin, sw, sh) => {
 
     let priority = skin.priority
-
     if (e.face === 1) {
         for (let i in priority) {
             let part = skin[priority[i]]
@@ -276,5 +277,13 @@ let drawWin = () =>{
 }
 
 let drawCycle = () =>{
-    
+
+}
+
+
+// --------- darw title
+
+let drawTitle = () =>{
+    ctx.font = "80px Arial";
+    ctx.fillText("Travsor", 100, 150);
 }

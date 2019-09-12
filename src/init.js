@@ -1,4 +1,4 @@
-let initAll = () =>{
+let initGaming = () =>{
     
     sky = []
     vx = 0
@@ -6,6 +6,12 @@ let initAll = () =>{
     enemyView = 500
     fixed = false
     bossActive = false
+    bound = {
+        uX: 3000,
+        uY: 1000,
+        lX: 0,
+        lY: 0
+    }
 
     _initHero()
     _initGround()
@@ -13,6 +19,7 @@ let initAll = () =>{
     _initBoss()
     _initArrow()
     _initSky()
+
 }
 
 let _initHero = () => {
@@ -121,4 +128,65 @@ let _initSky = () =>{
                 )
         }
     }
+}
+
+//-----------------------------------------------Starting Page------------------------------------------------
+
+let initStarting = () =>{
+
+    bound = {
+        uX: w,
+        uY: h + 300,
+        lX: 0,
+        lY: 0
+    }
+
+    _initStartHero()
+    _initStartGround()
+    _initArrow()
+    _initStartEnemy()
+}
+
+let _initStartHero = ()=>{
+    let group = new Group('hero', 100, 0.999, false)
+
+    group.elements.push(
+        new Hero(100, 400, 20, 40, 0, 0, 15, 100, 20),
+    )
+
+    groups['hero'] = group
+    hero = group.elements[0]
+}
+
+let _initStartGround = ()=>{
+    let group = new Group('ground', 0, 0, true)
+    group.elements.push(
+        new Ground(0, 550, 150, h -550, 0, 0, 50),
+        new Ground(150, 400, 150, h -400, 0, 0, 50),
+        new Ground(550, 550, 250, h - 340, 0, 0, 50),
+        new Ground(600, 400, 168, h-350, 0, 0, 50)
+    )
+
+    contact = new Contact('hero', 'ground', 1e8, 100)
+
+    difGupContacts['ground-hero'] = contact
+    groups['ground'] = group
+}
+
+let _initStartEnemy = () =>{
+    let groupEnemy = new Group('enemy', 100, 0.99, false)
+    groupEnemy.elements.push(
+        new Enemy(630, 300, 100, 100, 0, 0, 55, monsterSkin2, 30, 10)
+    )
+
+    groupEnemy.elements[0].face = -1
+
+    let contact = new Contact('enemy', 'ground', 9e9, 100)
+
+
+    let groupBoss = new Group('boss', 100, 0.99, true)
+
+    groups['enemy'] = groupEnemy
+    groups['boss'] = groupBoss
+    difGupContacts['enemy-ground'] = contact
 }
