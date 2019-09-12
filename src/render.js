@@ -284,6 +284,10 @@ let drawCycle = () =>{
 // --------- darw title
 
 let drawTitle = () =>{
-    ctx.font = "80px Arial";
-    ctx.fillText("Travsor", 100, 150);
+    let e = {
+        face :1,
+        lt:[100,50]
+    }
+
+    renderSkin(e, titleSkin, 13,13)
 }
