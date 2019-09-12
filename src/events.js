@@ -1,5 +1,4 @@
-events = []
-happend = [true, true, true]
+
 
 events.push((i, force) => {
     if (!happend[i]) return

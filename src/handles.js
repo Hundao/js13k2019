@@ -23,6 +23,7 @@ let handleArrowContact = () => {
         let plane = difGupContacts['arrow-boss'].contactPlanes[key]
         if (plane.isEverContact) {
             dead[plane.element1Index] = true
+            boss.hp -= hero.atk
         }
     }
 
@@ -88,7 +89,6 @@ let handleHeroAttaced = () => {
         let plane = difGupContacts['enemy-hero'].contactPlanes[key]
         if (plane.isEverContact) {
             hero.isSuper = true
-            console.log(plane)
             hero.hp -= groups['enemy'].elements[plane.element1Index].atk
 
             setTimeout(() => {
@@ -199,6 +199,21 @@ let handleEnemyDie = () =>{
     groups['enemy'].elements = groups['enemy'].elements.filter((e)=>{
         return e.hp > 0
     })
+
+    if(boss.hp < 0){
+        running = winning
+
+        for(let i = 0; i < 100; i++){
+            setTimeout(()=>{
+                winCap = i * 0.01
+            }, i* 50)
+
+            setTimeout(()=>{
+                initAll()
+                running = gaming
+            }, 5000)
+        }
+    }
 }
 
 let handleResetContactPlane = () =>{

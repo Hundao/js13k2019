@@ -1,6 +1,22 @@
-let initHero = () => {
+let initAll = () =>{
+    
+    sky = []
+    vx = 0
+    happend = [true, true, true]
+    enemyView = 500
+    fixed = false
+    bossActive = false
+
+    _initHero()
+    _initGround()
+    _initEnemy()
+    _initBoss()
+    _initArrow()
+    _initSky()
+}
+
+let _initHero = () => {
     let group = new Group('hero', 100, 0.999, false)
-    let contact = new Contact('hero', 'hero', 1e8, 1e3)
 
     group.elements.push(
         new Hero(100, 400, 20, 40, 0, 0, 15, 100, 20),
@@ -11,7 +27,7 @@ let initHero = () => {
     // makeParallelBound(group, contact.contactPlanes, 1)
 }
 
-initGround = () => {
+let _initGround = () => {
     let group = new Group('ground', 0, 0, true)
     group.elements.push(
         new Ground(   0, 550, 200, 90, 0, 0, 9999),
@@ -31,8 +47,7 @@ initGround = () => {
 
 }
 
-
-initEnemy = () => {
+let _initEnemy = () => {
     let group = new Group('enemy', 100, 0.99, false)
 
     group.elements.push(
@@ -51,18 +66,18 @@ initEnemy = () => {
     sameGupContacts['enemy-enemy'] = contactEnemy
 }
 
-initBoss = () => {
+let _initBoss = () => {
     let group = new Group('boss', 100, 0.99, true)
     
     group.elements.push(
-        new Boss(2723, 100, 200, 400, 0, 0, 55, 3000, 25),
+        new Boss(2723, 100, 200, 400, 0, 0, 55, 30, 25),
     )
 
     boss = group.elements[0]
     groups['boss'] = group
 }
 
-initArrow = () =>{
+let _initArrow = () =>{
     let group = new Group('arrow', 50, 0.999999, false)
 
     contact = new Contact('arrow', 'ground', 1e12, 0)
@@ -75,7 +90,7 @@ initArrow = () =>{
     groups['arrow'] = group
 }
 
-initSky = () =>{
+let _initSky = () =>{
     let den = 0.001
     let num = w * h * 0.3333 * den
 

@@ -107,16 +107,25 @@ let drawBackEffect = (color1, color2) => {
 let drawArrow = () => {
     let group = groups['arrow']
     group.elements.forEach((e) => {
-
         renderSkin(e, arrowSkin, 1, 1)
     })
 }
 
 let drawBoss = () =>{
     let skin = bossSkin
-    let boss = groups['boss'].elements[0]
     boss.face = 1
     
+    let hpLen = 130
+    let percent = boss.hp / boss.maxHp * hpLen
+
+    ctx.fillStyle= '#121211'
+    ctx.fillRect(boss.lt[0] -vx +20, boss.lt[1] -40, hpLen, 10)
+
+
+    ctx.fillStyle = '#ebc934'
+    ctx.fillRect(boss.lt[0] -vx +20, boss.lt[1] -40, percent, 10)
+
+
     renderSkin(boss, skin, 10, 10)
 }
 
@@ -258,4 +267,14 @@ let renderSkin = (e, skin, sw, sh) => {
         }
     }
 
+}
+
+let drawWin = () =>{
+    ctx.fillStyle = `rgb(124, 161, 159, ${winCap})`
+
+    ctx.fillRect(0, 0, w, h)
+}
+
+let drawCycle = () =>{
+    
 }

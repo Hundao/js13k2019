@@ -1,12 +1,7 @@
 
 const main = () => {
     onresize()
-    initSky()
-    initHero()
-    initGround()
-    initEnemy()
-    initArrow()
-    initBoss()
+    initAll()
 
     running = gaming
     execute()

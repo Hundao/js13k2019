@@ -28,14 +28,13 @@ let
         destory:[15000, 20000],
         summon:[10000, 15000]
     },
+    cycle = 0,
 
+    events = [],
+    happend = [true, true, true],
     enemyView = 500,
-    
+
     groups = {},
-    user = {
-        hp: 80,
-        maxHp: 100,
-    },
 
     difGupContacts = {},
     sameGupContacts = {},

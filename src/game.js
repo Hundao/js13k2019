@@ -1,4 +1,19 @@
 // using for control the game's flow 
+let winning = () =>{
+
+    drawBackground()
+    drawGround()
+    drawHero()
+    drawEnemy()
+    drawArrow()
+    drawHead()
+    drawWin()
+}
+
+let starting = () =>{
+
+}
+
 
 let gaming = () => {
     handleViewMove()
