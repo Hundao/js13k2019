@@ -58,6 +58,7 @@ initBoss = () => {
         new Boss(2723, 100, 200, 400, 0, 0, 55, 3000, 25),
     )
 
+    boss = group.elements[0]
     groups['boss'] = group
 }
 

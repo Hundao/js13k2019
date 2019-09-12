@@ -49,7 +49,7 @@ let handleEnemyMove = () => {
     enemys.forEach((e) => {
         if (e.canMove) {
             let dis = distance(hero.pos, e.pos)
-            if (dis < 500) {
+            if (dis < enemyView) {
                 let target = hero.pos[0] > e.pos[0] ? 1 : -1
                 e.face = target
                 e.f = plus(e.f, scale(3e12, [target, -10]))
@@ -165,6 +165,34 @@ let handleHeroCanJump = () => {
         }
     }
 
+}
+
+handleBossActive = () =>{
+    if(!bossActive) return
+
+    if(boss.skill.canSummon){
+
+        let number = Math.floor(Math.random() * 3) + 1
+
+        let enemys = groups['enemy'].elements
+        for(let i = 0; i < number ; i++){
+            enemys.push(new Enemy(2530 + i * 100, 400, 100, 100, 0, 0, 55, monsterSkin2, 150, 12))
+        }
+
+
+        boss.skill.canSummon = false
+        setTimeout(()=>{
+            boss.skill.canSummon = true
+        }, randomRange(cd.summon[0], cd.summon[1]))
+    }
+
+    if(boss.skill.canDestory){
+        boss.skill.canDestory = false
+
+        setTimeout(()=>{
+            boss.skill.canDestory = true
+        }, randomRange(cd.destory[0], cd.destory[1]))
+    }
 }
 
 let handleEnemyDie = () =>{

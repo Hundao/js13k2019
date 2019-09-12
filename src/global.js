@@ -16,13 +16,21 @@ let
     groundHeight = 200,
     fixed = false,
     hero = null,
+    boss = null,
+    bossActive = false,
 
     bowForce = 50,
     shooting = false,
     moving = false,
     sky = [],
     superTime = 1000,
+    cd = {
+        destory:[15000, 20000],
+        summon:[10000, 15000]
+    },
 
+    enemyView = 500,
+    
     groups = {},
     user = {
         hp: 80,
@@ -40,9 +48,9 @@ let
     },
 
     stoneConfig = {
-        den:0.0002,
-        space:10
+        den: 0.0002,
+        space: 10
     },
-    
+
     demStepInPerFrame = 100
-; 
+    ; 

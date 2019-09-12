@@ -24,3 +24,10 @@ let minus = (v1, v2) => {
 let plus = (v1, v2) => {
     return [v1[0] + v2[0], v1[1] + v2[1]]
 }
+
+let randomRange = (n1, n2)=>{
+    if(n1 > n2) throw new Error(`n1-${n1} must bigger than n2-${n2}`)
+
+    let dis = n2 - n1
+    return n1 + Math.floor(Math.random()*dis)
+}

@@ -22,6 +22,7 @@ let gaming = () => {
     handleHeroCanJump()
     handleEnemyDie()
     handleResetContactPlane()
+    handleBossActive()
 
     events.forEach((e, i) => e(i))
 }

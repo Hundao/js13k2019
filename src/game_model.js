@@ -29,6 +29,12 @@ class Boss extends Rectangle {
         this.hp = hp
         this.maxHp = hp
         this.atk = atk
+
+
+        this.skill = {
+            canDestory: false,
+            canSummon: false
+        }
     }
 }
 

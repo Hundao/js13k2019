@@ -1,10 +1,10 @@
 events = []
-happend = [ true, true, true]
+happend = [true, true, true]
 
-events.push((i, force)=>{
-    if(!happend[i]) return
+events.push((i, force) => {
+    if (!happend[i]) return
 
-    if(hero.pos[0] > 1078 && hero.pos[1] > 450 || force){
+    if (hero.pos[0] > 1078 && hero.pos[1] > 450 || force) {
         running = eventing
         groupMove('ground', 5, 0, -130)
         groupMove('ground', 6, 1, 150)
@@ -14,10 +14,10 @@ events.push((i, force)=>{
 })
 
 
-events.push((i, force)=>{
-    if(!happend[i]) return
+events.push((i, force) => {
+    if (!happend[i]) return
 
-    if(hero.pos[0] > 2200 && hero.pos[1] > 450 || force){
+    if (hero.pos[0] > 2200 && hero.pos[1] > 450 || force) {
         running = eventing
         groupMove('ground', 6, 1, -150)
 
@@ -25,33 +25,47 @@ events.push((i, force)=>{
     }
 })
 
-events.push((i, force)=>{
-    if(!happend[i]) return
+events.push((i, force) => {
+    if (!happend[i]) return
 
-    if(hero.pos[0] > 2340 || force){
+    if (hero.pos[0] > 2340 || force) {
         fixed = true
         vx = 1955
 
-        
+
         groupMove('boss', 0, 0, -200)
+
+        setTimeout(() => {
+            bossActive = true
+            enemyView = 1000
+        }, 3000)
+
+        setTimeout(() => {
+            boss.skill.canSummon = true
+        }, randomRange(1000, 3000))
+
+        setTimeout(()=>{
+            boss.skill.canDestory = true
+        }, 15000)
+
         happend[i] = false
     }
 
 })
 
-let groupMove = (groupKey, index, dir, dis) =>{
+let groupMove = (groupKey, index, dir, dis) => {
 
     let divide = dis * 0.01
-    let e =  groups[groupKey].elements[index]
+    let e = groups[groupKey].elements[index]
     let oriLt = e.lt[dir]
 
-    for(let i = 0; i < 100; i++){
-        setTimeout(()=>{
-           e.lt[dir] += divide
+    for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+            e.lt[dir] += divide
         }, 20 * i)
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
         running = gaming
         e.pos[dir] += dis
         e.rd[dir] += dis
@@ -73,7 +87,7 @@ let skepEvent = () => {
 }
 
 
-let showBoss = ()=>{
+let showBoss = () => {
     vx = 1955
     fixed = true
 }
