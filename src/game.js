@@ -40,9 +40,17 @@ let starting = () =>{
 
 }
 
+let dieing = () =>{
+    drawBackground()
+    drawGround()
+    drawHero()
+    drawEnemy()
+    drawArrow()
+    drawHead()
+    drawDie()
+}
 
 let gaming = () => {
-    handleViewMove()
     drawBackground()
     drawGround()
     drawHero()
@@ -55,6 +63,10 @@ let gaming = () => {
         demStep()
     }
 
+
+    events.forEach((e, i) => e(i))
+
+    handleViewMove()
     handleControl()
     handleArrowContact()
     handleEnemyMove()
@@ -65,8 +77,8 @@ let gaming = () => {
     handleEnemyDie()
     handleResetContactPlane()
     handleBossActive()
+    handleHeroDie()
 
-    events.forEach((e, i) => e(i))
 }
 
 let eventing = () => {

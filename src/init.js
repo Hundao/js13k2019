@@ -13,6 +13,7 @@ let initGaming = () =>{
         lY: 0
     }
     toolTextIndex = -1
+    heroSnapshot = []
 
     _initHero()
     _initGround()
@@ -21,6 +22,12 @@ let initGaming = () =>{
     _initArrow()
     _initSky()
 
+    let snapshot = {
+        happend,
+        groups,
+        vx,
+    }
+    globalSnapshot = JSON.stringify(snapshot)
 }
 
 let _initHero = () => {

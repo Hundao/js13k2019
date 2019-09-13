@@ -30,7 +30,7 @@ events.push((i, force) => {
     if (hero.pos[0] > 2340 || force) {
         fixed = true
         vx = 1955
-
+        save()
 
         groupMove('boss', 0, 0, -200)
 
@@ -43,7 +43,7 @@ events.push((i, force) => {
             boss.skill.canSummon = true
         }, randomRange(1000, 3000))
 
-        setTimeout(()=>{
+        setTimeout(() => {
             boss.skill.canDestory = true
         }, 15000)
 
@@ -52,18 +52,18 @@ events.push((i, force) => {
 
 })
 
-events.push((i)=>{
-    let enm = groups['enemy'].elements.filter((e)=>e.id===3)
-    
-    if(happend[i]){
-        if(cycler === 1 && enm.length ===0){
-            setTimeout(()=>{
+events.push((i) => {
+    let enm = groups['enemy'].elements.filter((e) => e.id === 3)
+
+    if (happend[i]) {
+        if (cycler === 1 && enm.length === 0) {
+            setTimeout(() => {
                 toolTextIndex = 3
                 hero.canBack = true
             }, 3000)
         }
-    
-        if(hero.pos[1] < 140 && toolTextIndex === 3){
+
+        if (hero.pos[1] < 140 && toolTextIndex === 3) {
             toolTextIndex = -1
             happend[i] = false
         }
@@ -109,24 +109,58 @@ let showBoss = () => {
     fixed = true
 }
 
+//----------------------- save and load function
 
+let save = () => {
+
+    let snapshot = {
+        happend,
+        groups,
+        vx,
+    }
+    globalSnapshot = JSON.stringify(snapshot)
+
+    for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+            saveCap = i * 0.01
+        }, i * 10)
+
+        setTimeout(()=>{
+            saveCap = ( 99 - i) * 0.01
+        }, i * 10 + 2000)
+    }
+
+}
+
+let load = () => {
+    let load = JSON.parse(globalSnapshot)
+    groups = load.groups
+    vx = load.vx
+    happend = load.happend
+    hero = load.groups['hero'].elements[0]
+
+    groups['enemy'].elements.forEach((e)=>{
+        e.canMove = true
+    })
+    heroSnapshot = []
+}
 
 //----------------------- starting event
 
-let tutorMove = () =>{
-    if(hero.pos[0] <= 95){
+let tutorMove = () => {
+    if (hero.pos[0] <= 95) {
         toolTextIndex = 0
     }
 }
 
-let tutorJump = () =>{
-    if(hero.pos[0] > 95 && hero.pos[1] > 400){
+let tutorJump = () => {
+    if (hero.pos[0] > 95 && hero.pos[1] > 400) {
         toolTextIndex = 1
     }
 }
 
-let tutorAttack = () =>{
-    if(hero.pos[0] > 172 && hero.pos[0] < 280){
+let tutorAttack = () => {
+    if (hero.pos[0] > 172 && hero.pos[0] < 280) {
         toolTextIndex = 2
     }
 }

@@ -92,7 +92,7 @@ let drawEnemy = () => {
         renderSkin(e, e.skin, 5, 5)
     })
 
-    if(boss){
+    if (boss) {
         drawBoss()
     }
 }
@@ -113,19 +113,19 @@ let drawArrow = () => {
     })
 }
 
-let drawBoss = () =>{
+let drawBoss = () => {
     let skin = bossSkin
     boss.face = 1
-    
+
     let hpLen = 130
     let percent = boss.hp / boss.maxHp * hpLen
 
-    ctx.fillStyle= '#121211'
-    ctx.fillRect(boss.lt[0] -vx +20, boss.lt[1] -40, hpLen, 10)
+    ctx.fillStyle = '#121211'
+    ctx.fillRect(boss.lt[0] - vx + 20, boss.lt[1] - 40, hpLen, 10)
 
 
     ctx.fillStyle = '#ebc934'
-    ctx.fillRect(boss.lt[0] -vx +20, boss.lt[1] -40, percent, 10)
+    ctx.fillRect(boss.lt[0] - vx + 20, boss.lt[1] - 40, percent, 10)
 
 
     renderSkin(boss, skin, 10, 10)
@@ -270,36 +270,45 @@ let renderSkin = (e, skin, sw, sh) => {
 
 }
 
-let drawWin = () =>{
+let drawWin = () => {
     ctx.fillStyle = `rgb(124, 161, 159, ${winCap})`
-
     ctx.fillRect(0, 0, w, h)
 }
 
-let drawCycle = () =>{
+let drawDie = () => {
+    ctx.fillStyle = `rgb(255, 41, 41, ${dieCap})`
+    ctx.fillRect(0, 0, w, h)
+}
+
+let drawCycle = () => {
 
 }
 
 
 // --------- darw title
 
-let drawTitle = () =>{
+let drawTitle = () => {
     let e = {
-        face :1,
-        lt:[100,50]
+        face: 1,
+        lt: [100, 50]
     }
 
-    renderSkin(e, titleSkin, 13,13)
+    renderSkin(e, titleSkin, 13, 13)
 }
 
 
 let drawText = () => {
-    if(toolTextIndex < 0) return
 
-    ctx.fillStyle = '#34ebd2'
-    ctx.font = "20px Arial";
-    let text = toolText[toolTextIndex]
-    let disX = text.length * 3
-    ctx.fillText(text, hero.lt[0] - disX -vx, hero.lt[1] -  10);
+    if(toolTextIndex > 0){
+        ctx.fillStyle = '#34ebd2'
+        ctx.font = "20px Arial";
+        let text = toolText[toolTextIndex]
+        let disX = text.length * 3
+        ctx.fillText(text, hero.lt[0] - disX - vx, hero.lt[1] - 10);
+    }
+
+
+    ctx.fillStyle = `rgb(52, 235, 210, ${saveCap})`
+    ctx.fillText('saving ...', 680, 630)
 
 }

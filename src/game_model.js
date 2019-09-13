@@ -5,7 +5,7 @@ class Hero extends Rectangle {
         this.face = 1
         this.canJump = false
         this.isSuper = false
-        this.canBack = false
+        this.canBack = true
         this.hp = hp
         this.maxHp = hp
         this.atk = atk

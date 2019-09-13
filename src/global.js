@@ -18,7 +18,8 @@ let
     hero = null,
     boss = null,
     bossActive = false,
-
+    globalSnapshot = {},
+    heroSnapshot = [],
     bowForce = 50,
     shooting = false,
     moving = false,
@@ -54,7 +55,7 @@ let
         space: 10
     },
 
-    demStepInPerFrame = 100
+    demStepInPerFrame = 100,
 
     toolText = [
         '↑↓←→ to move',
@@ -62,5 +63,8 @@ let
         `'x' to attack`,
         `'z' to backtracking`
     ],
-    toolTextIndex = -1
+    toolTextIndex = -1,
+    winCap = 0,
+    dieCap = 0,
+    saveCap = 0
     ; 
