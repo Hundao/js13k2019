@@ -132,6 +132,19 @@ let drawBoss = () => {
     renderSkin(boss, skin, 10, 10)
 }
 
+let drawRock = () =>{
+    let rocks = groups['rock'].elements
+    
+    rocks.forEach((e)=>{
+        let grd = ctx.createLinearGradient(e.lt[0] -vx, 0, e.rd[0] -vx, 0)
+        grd.addColorStop(0,"#ad5e09");
+        grd.addColorStop(0.25,"#81e629");
+        grd.addColorStop(0.75,"#81e629");
+        grd.addColorStop(1,"#ad5e09");
+        ctx.fillStyle = grd
+        ctx.fillRect(e.lt[0] -vx, e.lt[1], e.len.w, e.len.h)
+    })
+}
 let drawHead = () => {
 
     ctx.fillStyle = '#060001'

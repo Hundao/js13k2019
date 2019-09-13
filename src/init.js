@@ -1,5 +1,5 @@
 let initGaming = () => {
-
+    isSave = true
     sky = []
     vx = 0
     happend = [true, true, true, true, true]
@@ -109,8 +109,17 @@ let _initBoss = () => {
         new Boss(2723, 100, 200, 400, 0, 0, 100, hp, 25),
     )
 
+
+    let groupRock = new Group('rock', 100, 0.99, true)
+    // groupRock.elements.push(
+    //     new Rectangle( 700, 0, 20, h, -30, 0, 200)
+    // )
+    let contact = new Contact('hero', 'rock', 1e8, 100)
+
+    difGupContacts['hero-rock'] = contact
     boss = group.elements[0]
     groups['boss'] = group
+    groups['rock'] = groupRock
 }
 
 let _initArrow = () => {

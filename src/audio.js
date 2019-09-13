@@ -92,21 +92,21 @@ jumpAudio.staccato = 0.55;
 shootAudio.staccato = 0.55;
 
 // adjust the levels so the bass and harmony aren't too loud
-mainAudio.gain.gain.value = 0.1;
-subAudio.gain.gain.value = 0.05;
+mainAudio.gain.gain.value = 0.05;
+subAudio.gain.gain.value = 0.03;
 jumpAudio.gain.gain.value = 0.03;
 shootAudio.gain.gain.value = 0.03;
-reverseMainAudio.gain.gain.value = 0.1;
-reverseSubAudio.gain.gain.value = 0.05;
+reverseMainAudio.gain.gain.value = 0.05;
+reverseSubAudio.gain.gain.value = 0.03;
 
 // apply EQ settings
 mainAudio.mid.frequency.value = 1000;
-mainAudio.mid.gain.value = 3;
-jumpAudio.mid.gain.value = 3;
+mainAudio.mid.gain.value = 2;
+jumpAudio.mid.gain.value = 2;
 
 reverseMainAudio.mid.frequency.value = 1000;
-reverseMainAudio.mid.gain.value = 3;
-reverseSubAudio.mid.gain.value = 3;
+reverseMainAudio.mid.gain.value = 2;
+reverseSubAudio.mid.gain.value = 2;
 
 let playReserverMusic = () =>{
     reverseMainAudio.play()

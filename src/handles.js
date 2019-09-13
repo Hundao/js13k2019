@@ -48,7 +48,7 @@ let handleEnemyMove = () => {
     let enemys = groups['enemy'].elements
 
     enemys.forEach((e) => {
-        let vel = enemyVeclocity *  (1 + cycler * 0.4)
+        let vel = enemyVeclocity * (1 + cycler * 0.4)
         if (e.canMove) {
             let dis = distance(hero.pos, e.pos)
             if (dis < enemyView) {
@@ -85,19 +85,28 @@ let handleViewMove = () => {
 
 
 let handleHeroAttaced = () => {
-    if(hero.isSuper) return 
+    if (!hero.isSuper) {
+        for (let key in difGupContacts['enemy-hero'].contactPlanes) {
+            let plane = difGupContacts['enemy-hero'].contactPlanes[key]
+            if (plane.isEverContact) {
+                hero.isSuper = true
+                hero.hp -= groups['enemy'].elements[plane.element1Index].atk
 
-    for (let key in difGupContacts['enemy-hero'].contactPlanes) {
-        let plane = difGupContacts['enemy-hero'].contactPlanes[key]
-        if (plane.isEverContact) {
-            hero.isSuper = true
-            hero.hp -= groups['enemy'].elements[plane.element1Index].atk
-
-            setTimeout(() => {
-                hero.isSuper = false
-            }, superTime)
+                setTimeout(() => {
+                    hero.isSuper = false
+                }, superTime)
+            }
         }
     }
+
+    for (let key in difGupContacts['hero-rock'].contactPlanes) {
+        let plane = difGupContacts['hero-rock'].contactPlanes[key]
+        if (plane.isEverContact) {
+
+            hero.hp = -1
+        }
+    }
+
 
 }
 
@@ -114,7 +123,7 @@ let handleControl = () => {
     }
 
     if (controlKeys['z']) {
-        if(hero.canBack){
+        if (hero.canBack) {
             stopMusic()
             playReserverMusic()
         }
@@ -127,11 +136,11 @@ let handleShooting = () => {
 
         playShootMusic()
 
-        if(cycler > 1){
+        if (cycler > 1) {
             groups['arrow'].elements.push(
                 new Arrow(
                     hero.pos[0],
-                    hero.pos[1] -4,
+                    hero.pos[1] - 4,
                     10,
                     10,
                     v[0],
@@ -152,9 +161,9 @@ let handleShooting = () => {
                     200,
                     hero.face
                 )
-            ) 
+            )
         }
-        else{
+        else {
             groups['arrow'].elements.push(
                 new Arrow(
                     hero.pos[0],
@@ -181,7 +190,7 @@ let handleHeroCanJump = () => {
         let planes = difGupContacts[key].contactPlanes
 
         for (let key2 in planes) {
-            if(hero.canJump) continue
+            if (hero.canJump) continue
             if (planes[key2].isEverContact) {
                 hero.canJump = true
                 break
@@ -201,10 +210,10 @@ let handleHeroCanJump = () => {
 
 }
 
-handleBossActive = () =>{
-    if(!bossActive) return
+handleBossActive = () => {
+    if (!bossActive) return
 
-    if(boss.skill.canSummon){
+    if (boss.skill.canSummon) {
 
         let number = Math.floor(Math.random() * 3) + 1
 
@@ -212,41 +221,78 @@ handleBossActive = () =>{
         let hp = 100 * (1 + cycler * 0.4)
         let atk = 12 * (1 + cycler * 0.4)
 
-        for(let i = 0; i < number ; i++){
+        for (let i = 0; i < number; i++) {
             enemys.push(new Enemy(2530 + i * 100, 400, 100, 100, 0, 0, 55, monsterSkin2, hp, atk, 10))
         }
 
 
         boss.skill.canSummon = false
-        setTimeout(()=>{
-            boss.skill.canSummon = true
-        }, randomRange(cd.summon[0], cd.summon[1]))
+
+        timeouts.push(
+            setTimeout(() => {
+                boss.skill.canSummon = true
+            }, randomRange(cd.summon[0], cd.summon[1]))
+        )
     }
 
-    if(boss.skill.canDestory){
+    if (boss.skill.canDestory) {
         boss.skill.canDestory = false
 
-        setTimeout(()=>{
-            boss.skill.canDestory = true
-        }, randomRange(cd.destory[0], cd.destory[1]))
+        let m = Math.floor(Math.random() * 4)
+
+        switch (m) {
+            case 0:
+                groups['rock'].elements.push(
+                    new Rectangle(2700, 0, 20, h, -30, 0, 200)
+                )
+                break;
+            case 1:
+                groups['rock'].elements.push(
+                    new Rectangle(1800, 0, 20, h, 30, 0, 200)
+                )
+                break;
+            case 2:
+                if (cycler >= 3) {
+                    groups['rock'].elements.push(
+                        new Rectangle(1800, 0, 1200, 20, 0, 20, 200)
+                    )
+                }
+                else {
+                    groups['rock'].elements.push(
+                        new Rectangle(1800, 680, 1200, 20, 0, -20, 200)
+                    )
+                }
+                break;
+            case 3:
+                groups['rock'].elements.push(
+                    new Rectangle(1800, 680, 1200, 20, 0, -20, 200)
+                )
+                break;
+        }
+
+        timeouts.push(
+            setTimeout(() => {
+                boss.skill.canDestory = true
+            }, randomRange(cd.destory[0], cd.destory[1]))
+        )
     }
 }
 
-let handleEnemyDie = () =>{
-    groups['enemy'].elements = groups['enemy'].elements.filter((e)=>{
+let handleEnemyDie = () => {
+    groups['enemy'].elements = groups['enemy'].elements.filter((e) => {
         return e.hp > 0
     })
 
-    if(boss){
-        if(boss.hp < 0){
+    if (boss) {
+        if (boss.hp < 0) {
             running = winning
-    
-            for(let i = 0; i < 100; i++){
-                setTimeout(()=>{
+
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
                     winCap = i * 0.01
-                }, i* 50)
+                }, i * 50)
             }
-            setTimeout(()=>{
+            setTimeout(() => {
                 cycler++
                 initGaming()
                 running = gaming
@@ -255,12 +301,12 @@ let handleEnemyDie = () =>{
     }
 }
 
-let handleResetContactPlane = () =>{
-    for(let key in difGupContacts){
+let handleResetContactPlane = () => {
+    for (let key in difGupContacts) {
         difGupContacts[key].contactPlanes = {}
     }
-    
-    for(let key in sameGupContacts){
+
+    for (let key in sameGupContacts) {
         sameGupContacts[key].contactPlanes = {}
     }
 }
@@ -272,7 +318,8 @@ let handleMakeSnapshot = () => {
         lt: [hero.lt[0], hero.lt[1]],
         rd: [hero.rd[0], hero.rd[1]],
         vx,
-        hp: hero.hp
+        hp: hero.hp,
+        face: hero.face
     })
     // for (let key in groups) {
     //     let group = groups[key]
@@ -291,17 +338,17 @@ let handleMakeSnapshot = () => {
     // }
 }
 
-let handleHeroDie = () =>{
-    if(hero.hp < 0){
+let handleHeroDie = () => {
+    if (hero.hp < 0) {
         running = dieing
-    
-        for(let i = 0; i< 100; i++){
-            setTimeout(()=>{
+
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
                 dieCap = i * 0.01
-            }, i* 20)
+            }, i * 20)
         }
 
-        setTimeout(()=>{
+        setTimeout(() => {
             load()
             running = gaming
         }, 2000)
@@ -321,8 +368,8 @@ let handleHeroDie = () =>{
 
 let handleHeroTimeBack = () => {
     console.log('back tracking !!!')
-    if(heroSnapshot.length > 0){
-        let snapshot = heroSnapshot[heroSnapshot.length -1]
+    if (heroSnapshot.length > 0) {
+        let snapshot = heroSnapshot[heroSnapshot.length - 1]
         hero.pos[0] = snapshot.pos[0]
         hero.pos[1] = snapshot.pos[1]
         hero.lt[0] = snapshot.lt[0]
@@ -332,12 +379,13 @@ let handleHeroTimeBack = () => {
         hero.v[0] = snapshot.v[0]
         hero.v[1] = snapshot.v[1]
         hero.hp = snapshot.hp
+        hero.face = snapshot.face
 
         vx = snapshot.vx
 
         heroSnapshot.pop()
     }
-    else{
+    else {
         console.log('snapshot is no more')
     }
 
@@ -375,14 +423,14 @@ let handleHeroTimeBack = () => {
 //----------------------------------------------- Handle Starting Page------------------------------------------------
 
 
-let handleIdel = () =>{
-    if(hero.pos[1] > 700){
+let handleIdel = () => {
+    if (hero.pos[1] > 700) {
         initStarting()
     }
 }
 
-let handleEnterGaming = () =>{
-    if(groups['enemy'].elements.length === 0){
+let handleEnterGaming = () => {
+    if (groups['enemy'].elements.length === 0) {
         running = gaming
         initGaming()
     }

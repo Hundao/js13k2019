@@ -41,43 +41,64 @@ let verlet = () => {
     for (let key in groups) {
         let group = groups[key]
 
-        if (group.isRigid) continue
-        for (let i in group.elements) {
-            let e = group.elements[i]
+        if (group.isRigid) {
+            for(let i in group.elements){
 
-            e.v = scale(group.damp, e.v)
+                let e = group.elements[i]
+                
+                let dis = scale(dt, e.v)
 
-            let dmpInfluence = 1 - group.damp
+                if (e.lt[0] + dis[0] > bound.lX && e.rd[0] + dis[0] < bound.uX) {
+                    e.pos[0] += dis[0]
+                    e.lt[0] += dis[0]
+                    e.rd[0] += dis[0]
+                }
 
-            e.v[0] += (e.f[0] * e.invm) * dmpInfluence * dt
-            e.v[1] += (e.f[1] * e.invm + gravity * e.mass) * dmpInfluence * dt
-
-            let dis = scale(dt, e.v)
-
-            if(dis[0] > disMax){
-                dis[0] = disMax
-            }else if(dis[0] < disMin){
-                dis[0] = disMin
+                if (e.lt[1] + dis[1] > bound.lY && e.rd[1] + dis[1] < bound.uY) {
+                    e.pos[1] += dis[1]
+                    e.lt[1] += dis[1]
+                    e.rd[1] += dis[1]
+                }
             }
+        }   
+        else {
+            for (let i in group.elements) {
+                let e = group.elements[i]
 
-            if(dis[1] > disMax){
-                dis[1] = disMax
-            } else if(dis[1] < disMin){
-                dis[1] = disMin
+                e.v = scale(group.damp, e.v)
+
+                let dmpInfluence = 1 - group.damp
+
+                e.v[0] += (e.f[0] * e.invm) * dmpInfluence * dt
+                e.v[1] += (e.f[1] * e.invm + gravity * e.mass) * dmpInfluence * dt
+
+                let dis = scale(dt, e.v)
+
+                if (dis[0] > disMax) {
+                    dis[0] = disMax
+                } else if (dis[0] < disMin) {
+                    dis[0] = disMin
+                }
+
+                if (dis[1] > disMax) {
+                    dis[1] = disMax
+                } else if (dis[1] < disMin) {
+                    dis[1] = disMin
+                }
+
+                if (e.lt[0] + dis[0] > bound.lX && e.rd[0] + dis[0] < bound.uX) {
+                    e.pos[0] += dis[0]
+                    e.lt[0] += dis[0]
+                    e.rd[0] += dis[0]
+                }
+
+                if (e.lt[1] + dis[1] > bound.lY && e.rd[1] + dis[1] < bound.uY) {
+                    e.pos[1] += dis[1]
+                    e.lt[1] += dis[1]
+                    e.rd[1] += dis[1]
+                }
+
             }
-
-            if (e.lt[0] + dis[0] > bound.lX && e.rd[0] + dis[0] < bound.uX) {
-                e.pos[0] += dis[0]
-                e.lt[0] += dis[0]
-                e.rd[0] += dis[0]
-            }
-
-            if (e.lt[1] + dis[1] > bound.lY && e.rd[1] + dis[1] < bound.uY) {
-                e.pos[1] += dis[1]
-                e.lt[1] += dis[1]
-                e.rd[1] += dis[1]
-            }
-
         }
     }
 }
@@ -88,7 +109,7 @@ let handleContact = () => {
         let contact = difGupContacts[key]
         let group1 = groups[contact.group1Index]
         let group2 = groups[contact.group2Index]
-        
+
         for (let i = 0; i < group1.elements.length; i++) {
             for (let j = 0; j < group2.elements.length; j++) {
                 let e1 = group1.elements[i]
@@ -157,16 +178,16 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
         let overlapX = (e1.len.w + e2.len.w) - (maxX - minX)
         let overlapY = (e1.len.h + e2.len.h) - (maxY - minY)
 
-        if(overlapX > overlapY){
-            if(e1.rd[1] > e2.lt[1] && e1.pos[1] < e2.pos[1]){
+        if (overlapX > overlapY) {
+            if (e1.rd[1] > e2.lt[1] && e1.pos[1] < e2.pos[1]) {
                 nc = [0, 1]
-            }else{
+            } else {
                 nc = [0, -1]
             }
-        }else{
-            if(e1.rd[0] > e2.lt[0] && e1.pos[0] < e2.pos[0]){
+        } else {
+            if (e1.rd[0] > e2.lt[0] && e1.pos[0] < e2.pos[0]) {
                 nc = [1, 0]
-            }else {
+            } else {
                 nc = [-1, 0]
             }
         }
@@ -235,7 +256,7 @@ let _updateContactPlane = (e1, e2, contactPlane, contact) => {
     }
 
     if (contactPlane.isBound) {
-        
+
         contactPlane.rV = minus(e2.v, e1.v)
         contactPlane.inD = plus(contactPlane.inD, scale(dt, contactPlane.rV))
 
@@ -252,7 +273,7 @@ let receiveForce = () => {
         let group2 = groups[contact.group2Index]
         for (let i in contact.contactPlanes) {
             let contactPlane = contact.contactPlanes[i]
-            if (!contactPlane.isContact) continue 
+            if (!contactPlane.isContact) continue
 
             let e1 = group1.elements[contactPlane.element1Index]
             let e2 = group2.elements[contactPlane.element2Index]

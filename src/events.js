@@ -35,20 +35,32 @@ events.push((i, force) => {
 
         toolTextIndex = -1
 
+        if (isSave) {
+            save()
+            isSave = false
+        }
+
         groupMove('boss', 0, 0, -200)
 
-        setTimeout(() => {
-            bossActive = true
-            enemyView = 1000
-        }, 3000)
+        timeouts.push(
+            setTimeout(() => {
+                bossActive = true
+                enemyView = 1000
+            }, 3000)
+        )
 
-        setTimeout(() => {
-            boss.skill.canSummon = true
-        }, randomRange(1000, 3000))
 
-        setTimeout(() => {
-            boss.skill.canDestory = true
-        }, 15000)
+        timeouts.push(
+            setTimeout(() => {
+                boss.skill.canSummon = true
+            }, randomRange(1000, 3000))
+        )
+
+        timeouts.push(
+            setTimeout(() => {
+                boss.skill.canDestory = true
+            }, 8000)
+        )
 
         happend[i] = false
     }
@@ -66,28 +78,19 @@ events.push((i) => {
                 toolTextIndex = 3
                 hero.canBack = true
             }, 3000)
+            happend[i] = false
         }
 
     }
 
-    if (hero.pos[1] < 140 && toolTextIndex === 3) {
-        toolTextIndex = -1
-        happend[i] = false
-    }
 })
 
-let isSave = true
-events.push((i)=>{
-    if (happend[i]){
-        if(hero.pos[0] > 1910 && hero.pos[0] < 2000){
-            toolTextIndex = -1
-            
-            if(isSave) {
-                save()
-                isSave = false
-            }
+events.push((i) => {
+    if (happend[i]) {
 
-            happend[i] =false
+        if (hero.pos[1] < 140 && toolTextIndex === 3) {
+            toolTextIndex = -1
+            happend[i] = false
         }
     }
 })
@@ -149,8 +152,8 @@ let save = () => {
             saveCap = i * 0.01
         }, i * 10)
 
-        setTimeout(()=>{
-            saveCap = ( 99 - i) * 0.01
+        setTimeout(() => {
+            saveCap = (99 - i) * 0.01
         }, i * 10 + 2000)
     }
 
@@ -164,16 +167,22 @@ let load = () => {
     bossActive = load.bossActive
     fixed = load.fixed
     hero = load.groups['hero'].elements[0]
+    hero.hp = hero.maxHp
     boss = load.groups['boss'].elements[0]
-    
+
     boss.skill = {
         canDestory: false,
         canSummon: false
     }
-    groups['enemy'].elements.forEach((e)=>{
+    groups['enemy'].elements.forEach((e) => {
         e.canMove = true
     })
     heroSnapshot = []
+
+    timeouts.forEach((t) => {
+        clearTimeout(t)
+    })
+    timeouts = []
 }
 
 //----------------------- starting event

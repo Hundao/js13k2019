@@ -53,11 +53,11 @@ class Contact {
 
         }
     }
-}
+}   
 
 class Group {
-    constructor(name, density, damp, isRigids) {
-        this.isRigid = isRigids
+    constructor(name, density, damp, isRigid) {
+        this.isRigid = isRigid
         this.damp = damp
         this.density = density
         this.name = name

@@ -26,7 +26,7 @@ let
     sky = [],
     superTime = 1000,
     cd = {
-        destory:[15000, 20000],
+        destory:[9000, 10000],
         summon:[10000, 15000]
     },
     cycler = 1,
@@ -39,10 +39,11 @@ let
     enemyView = 500,
 
     groups = {},
-
+    isSave = true,
     difGupContacts = {},
     sameGupContacts = {},
     enemyVeclocity =  3e12,
+    timeouts = []
     bound = {
         uX: 3000,
         uY: 1000,

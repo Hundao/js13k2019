@@ -59,6 +59,7 @@ let gaming = () => {
     drawHead()
     drawText()
     drawCycle()
+    drawRock()
 
     for (let i = 0; i < demStepInPerFrame; i++) {
         demStep()
@@ -103,6 +104,7 @@ let heroTimeBack = () => {
     drawEnemy()
     drawHero()
     drawArrow()
+    drawRock()
 
     drawBackEffect('rgb(34, 150, 227, 0.08', 'rgb(0, 183, 255, 1')
 

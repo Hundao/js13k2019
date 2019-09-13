@@ -6,10 +6,9 @@ const main = () => {
     running = starting
     execute()
     
-    // setTimeout(()=>{
-        
-    //     playMusic()
-    // }, 1000)
+    setTimeout(()=>{
+        playMusic()
+    }, 1000)
 }
 
 window.onload = main
