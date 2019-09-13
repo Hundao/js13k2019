@@ -56,13 +56,15 @@ actions['up'] = function () {
     })
 }
 
-actions['q'] = function () {
-    running = heroTimeBack
+actions['z'] = function () {
+    if(hero.canBack){
+        running = heroTimeBack
+    }
 }
 
-actions['w'] = function () {
-    running = enemyTimeBack
-}
+// actions['w'] = function () {
+//     running = enemyTimeBack
+// }
 
 actions['x'] = function () {
     if(bowForce < 200)

@@ -176,7 +176,7 @@ handleBossActive = () =>{
 
         let enemys = groups['enemy'].elements
         for(let i = 0; i < number ; i++){
-            enemys.push(new Enemy(2530 + i * 100, 400, 100, 100, 0, 0, 55, monsterSkin2, 150, 12))
+            enemys.push(new Enemy(2530 + i * 100, 400, 100, 100, 0, 0, 55, monsterSkin2, 150, 12, 10))
         }
 
 
@@ -306,7 +306,7 @@ let handleIdel = () =>{
 
 let handleEnterGaming = () =>{
     if(groups['enemy'].elements.length === 0){
-        initGaming()
         running = gaming
+        initGaming()
     }
 }

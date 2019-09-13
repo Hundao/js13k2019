@@ -2,7 +2,7 @@ let initGaming = () =>{
     
     sky = []
     vx = 0
-    happend = [true, true, true]
+    happend = [true, true, true, true]
     enemyView = 500
     fixed = false
     bossActive = false
@@ -12,6 +12,7 @@ let initGaming = () =>{
         lX: 0,
         lY: 0
     }
+    toolTextIndex = -1
 
     _initHero()
     _initGround()
@@ -58,9 +59,9 @@ let _initEnemy = () => {
     let group = new Group('enemy', 100, 0.99, false)
 
     group.elements.push(
-        new Enemy(500, 200, 100, 100, 0, 0, 55, monsterSkin2, 100, 10),
-        new Enemy(700, 200, 100, 100, 0, 0, 55, monsterSkin2, 100, 10),
-        new Enemy(1600, 200, 100, 100, 0, 0, 55, monsterSkin1, 300, 30)
+        new Enemy(500, 200, 100, 100, 0, 0, 55, monsterSkin2, 100, 10,1),
+        new Enemy(700, 200, 100, 100, 0, 0, 55, monsterSkin2, 100, 10,2),
+        new Enemy(1600, 200, 100, 100, 0, 0, 55, monsterSkin1, 300, 30,3)
     )
 
     let contact = new Contact('enemy', 'ground', 9e9, 100)
@@ -151,7 +152,7 @@ let _initStartHero = ()=>{
     let group = new Group('hero', 100, 0.999, false)
 
     group.elements.push(
-        new Hero(100, 400, 20, 40, 0, 0, 15, 100, 20),
+        new Hero(40, 400, 20, 40, 0, 0, 15, 100, 20),
     )
 
     groups['hero'] = group
@@ -176,7 +177,7 @@ let _initStartGround = ()=>{
 let _initStartEnemy = () =>{
     let groupEnemy = new Group('enemy', 100, 0.99, false)
     groupEnemy.elements.push(
-        new Enemy(630, 300, 100, 100, 0, 0, 55, monsterSkin2, 30, 10)
+        new Enemy(630, 300, 100, 100, 0, 0, 55, monsterSkin2, 30, 10,4)
     )
 
     groupEnemy.elements[0].face = -1

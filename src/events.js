@@ -52,6 +52,24 @@ events.push((i, force) => {
 
 })
 
+events.push((i)=>{
+    let enm = groups['enemy'].elements.filter((e)=>e.id===3)
+    
+    if(happend[i]){
+        if(cycler === 1 && enm.length ===0){
+            setTimeout(()=>{
+                toolTextIndex = 3
+                hero.canBack = true
+            }, 3000)
+        }
+    
+        if(hero.pos[1] < 140 && toolTextIndex === 3){
+            toolTextIndex = -1
+            happend[i] = false
+        }
+    }
+})
+
 let groupMove = (groupKey, index, dir, dis) => {
 
     let divide = dis * 0.01
@@ -90,5 +108,31 @@ let showBoss = () => {
     vx = 1955
     fixed = true
 }
-// vx = 1955
-// fixed = true
+
+
+
+//----------------------- starting event
+
+let tutorMove = () =>{
+    if(hero.pos[0] <= 95){
+        toolTextIndex = 0
+    }
+}
+
+let tutorJump = () =>{
+    if(hero.pos[0] > 95 && hero.pos[1] > 400){
+        toolTextIndex = 1
+    }
+}
+
+let tutorAttack = () =>{
+    if(hero.pos[0] > 172 && hero.pos[0] < 280){
+        toolTextIndex = 2
+    }
+}
+
+startEvents.push(
+    tutorMove,
+    tutorJump,
+    tutorAttack
+)

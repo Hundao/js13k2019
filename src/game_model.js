@@ -5,6 +5,7 @@ class Hero extends Rectangle {
         this.face = 1
         this.canJump = false
         this.isSuper = false
+        this.canBack = false
         this.hp = hp
         this.maxHp = hp
         this.atk = atk
@@ -12,8 +13,9 @@ class Hero extends Rectangle {
 }
 
 class Enemy extends Rectangle {
-    constructor(ltx, lty, w, h, vx, vy, density, skin, hp, atk) {
+    constructor(ltx, lty, w, h, vx, vy, density, skin, hp, atk, id) {
         super(ltx, lty, w, h, vx, vy, density)
+        this.id = id
         this.face = 1
         this.canMove = true
         this.skin = skin

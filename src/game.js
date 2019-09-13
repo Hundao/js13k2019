@@ -17,6 +17,7 @@ let starting = () =>{
     drawEnemy()
     drawArrow()
     drawTitle()
+    drawText()
     
 
     for (let i = 0; i < demStepInPerFrame; i++) {
@@ -24,6 +25,9 @@ let starting = () =>{
     }
 
     
+
+    startEvents.forEach((e, i) => e(i))
+
     handleControl()
     handleArrowContact()
     handleShooting()
@@ -32,6 +36,8 @@ let starting = () =>{
     handleEnemyDie()
     handleIdel()
     handleEnterGaming()
+
+
 }
 
 
@@ -43,6 +49,7 @@ let gaming = () => {
     drawEnemy()
     drawArrow()
     drawHead()
+    drawText()
 
     for (let i = 0; i < demStepInPerFrame; i++) {
         demStep()
@@ -89,7 +96,7 @@ let heroTimeBack = () => {
 
     handleHeroTimeBack()
 
-    if (controlKeys['q'] === false) {
+    if (controlKeys['z'] === false) {
         running = gaming
         stopReserverMusic()
         playMusic()
@@ -97,22 +104,22 @@ let heroTimeBack = () => {
 
 }
 
-let enemyTimeBack = () => {
-    drawBackground()
-    drawGround()
-    drawEnemy()
-    drawHero()
-    drawArrow()
+// let enemyTimeBack = () => {
+//     drawBackground()
+//     drawGround()
+//     drawEnemy()
+//     drawHero()
+//     drawArrow()
 
-    drawBackEffect('rgb(63, 64, 61, 0.1', 'rgb(227, 32, 64, 1')
+//     drawBackEffect('rgb(63, 64, 61, 0.1', 'rgb(227, 32, 64, 1')
 
 
-    handleEnemyTimeBack()
+//     handleEnemyTimeBack()
 
-    if (controlKeys['w'] === false) {
-        running = gaming
-    }
-}
+//     if (controlKeys['w'] === false) {
+//         running = gaming
+//     }
+// }
 
 
 

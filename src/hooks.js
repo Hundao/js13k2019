@@ -38,12 +38,12 @@ onkeydown = function (e) {
         case 67:
             controlKeys['c'] = true
             break;
-        case 81:
-            controlKeys['q'] = true
+        case 90:
+            controlKeys['z'] = true
             break
-        case 87:
-            controlKeys['w'] = true
-            break
+        // case 87:
+        //     controlKeys['w'] = true
+        //     break
         case 69:
             controlKeys['e'] = true
             break
@@ -73,12 +73,12 @@ onkeyup = function (e) {
         case 67:
             controlKeys['c'] = false
             break;
-        case 81:
-            controlKeys['q'] = false
+        case 90:
+            controlKeys['z'] = false
             break;
-        case 87:
-            controlKeys['w'] = false
-            break
+        // case 87:
+        //     controlKeys['w'] = false
+        //     break
         case 69:
             controlKeys['e'] = false
             break

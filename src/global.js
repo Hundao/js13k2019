@@ -28,10 +28,13 @@ let
         destory:[15000, 20000],
         summon:[10000, 15000]
     },
-    cycle = 0,
+    cycler = 1,
+    monster1Die = false,
 
     events = [],
-    happend = [true, true, true],
+    happend = [true, true, true, true],
+    startEvents = [],
+    startHappend = [true, true, true],
     enemyView = 500,
 
     groups = {},
@@ -52,4 +55,12 @@ let
     },
 
     demStepInPerFrame = 100
+
+    toolText = [
+        '↑↓←→ to move',
+        `'c' to jump`,
+        `'x' to attack`,
+        `'z' to backtracking`
+    ],
+    toolTextIndex = -1
     ; 

@@ -291,3 +291,15 @@ let drawTitle = () =>{
 
     renderSkin(e, titleSkin, 13,13)
 }
+
+
+let drawText = () => {
+    if(toolTextIndex < 0) return
+
+    ctx.fillStyle = '#34ebd2'
+    ctx.font = "20px Arial";
+    let text = toolText[toolTextIndex]
+    let disX = text.length * 3
+    ctx.fillText(text, hero.lt[0] - disX -vx, hero.lt[1] -  10);
+
+}
