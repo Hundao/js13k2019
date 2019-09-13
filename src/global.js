@@ -33,7 +33,7 @@ let
     monster1Die = false,
 
     events = [],
-    happend = [true, true, true, true],
+    happend = [true, true, true, true, true],
     startEvents = [],
     startHappend = [true, true, true],
     enemyView = 500,
@@ -42,7 +42,7 @@ let
 
     difGupContacts = {},
     sameGupContacts = {},
-
+    enemyVeclocity =  3e12,
     bound = {
         uX: 3000,
         uY: 1000,

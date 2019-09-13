@@ -1,8 +1,8 @@
-let initGaming = () =>{
-    
+let initGaming = () => {
+
     sky = []
     vx = 0
-    happend = [true, true, true, true]
+    happend = [true, true, true, true, true]
     enemyView = 500
     fixed = false
     bossActive = false
@@ -28,6 +28,10 @@ let initGaming = () =>{
         vx,
     }
     globalSnapshot = JSON.stringify(snapshot)
+
+    if(cycler > 1){
+        hero.canBack = true
+    }
 }
 
 let _initHero = () => {
@@ -45,10 +49,10 @@ let _initHero = () => {
 let _initGround = () => {
     let group = new Group('ground', 0, 0, true)
     group.elements.push(
-        new Ground(   0, 550, 200, 90, 0, 0, 9999),
-        new Ground( 200, 140, 150, 500, 0, 0, 9999),
-        new Ground( 350, 400, 600, 240, 0, 0, 9999),
-        new Ground( 950, 60, 120, 640, 0, 0, 9999),
+        new Ground(0, 550, 200, 90, 0, 0, 9999),
+        new Ground(200, 140, 150, 500, 0, 0, 9999),
+        new Ground(350, 400, 600, 240, 0, 0, 9999),
+        new Ground(950, 60, 120, 640, 0, 0, 9999),
         new Ground(1070, 500, 800, 140, 0, 0, 9999),
         new Ground(1200, 150, 820, 140, 0, 0, 9999),
         new Ground(1870, 0, 150, 640, 0, 0, 9999),
@@ -65,11 +69,27 @@ let _initGround = () => {
 let _initEnemy = () => {
     let group = new Group('enemy', 100, 0.99, false)
 
-    group.elements.push(
-        new Enemy(500, 200, 100, 100, 0, 0, 55, monsterSkin2, 100, 10,1),
-        new Enemy(700, 200, 100, 100, 0, 0, 55, monsterSkin2, 100, 10,2),
-        new Enemy(1600, 200, 100, 100, 0, 0, 55, monsterSkin1, 300, 30,3)
-    )
+    let a = 0.4
+    let b = 0.2
+    let hp1 = 100 * (1 + cycler * a)
+    let hp2 = 300 * (1 + cycler * b)
+    let atk1 = 10 * (1 + cycler * a)
+    let atk2 = 30 * (1 + cycler * b)
+    if (cycler <= 1) {
+        group.elements.push(
+            new Enemy(500, 200, 100, 100, 0, 0, 55, monsterSkin2, hp1, atk1, 1),
+            new Enemy(700, 200, 100, 100, 0, 0, 55, monsterSkin2, hp1, atk1, 2),
+            new Enemy(1600, 200, 100, 100, 0, 0, 55, monsterSkin1, hp2, atk2, 3)
+        )
+    } else {
+        group.elements.push(
+            new Enemy(530, 200, 100, 100, 0, 0, 55, monsterSkin2, hp1, atk1, 1),
+            new Enemy(610, 200, 100, 100, 0, 0, 55, monsterSkin2, hp1, atk1, 2),
+            new Enemy(420, 200, 100, 100, 0, 0, 55, monsterSkin1, hp1 + 100, atk1, 3),
+            new Enemy(1600, 200, 100, 100, 0, 0, 55, monsterSkin1, hp2, atk2, 4),
+            new Enemy(1092, 200, 100, 100, 0, 0, 55, monsterSkin1, hp2, atk2, 4)
+        )
+    }
 
     let contact = new Contact('enemy', 'ground', 9e9, 100)
     let contactHero = new Contact('enemy', 'hero', 1e10, 100)
@@ -83,16 +103,17 @@ let _initEnemy = () => {
 
 let _initBoss = () => {
     let group = new Group('boss', 100, 0.99, true)
-    
+
+    let hp = 1000 * ( 1 + cycler * 0.3 )
     group.elements.push(
-        new Boss(2723, 100, 200, 400, 0, 0, 55, 30, 25),
+        new Boss(2723, 100, 200, 400, 0, 0, 100, hp, 25),
     )
 
     boss = group.elements[0]
     groups['boss'] = group
 }
 
-let _initArrow = () =>{
+let _initArrow = () => {
     let group = new Group('arrow', 50, 0.999999, false)
 
     contact = new Contact('arrow', 'ground', 1e12, 0)
@@ -105,24 +126,25 @@ let _initArrow = () =>{
     groups['arrow'] = group
 }
 
-let _initSky = () =>{
+let _initSky = () => {
+    sky = []
     let den = 0.001
     let num = w * h * 0.3333 * den
 
-    for(let i = 0; i < num; i++){
+    for (let i = 0; i < num; i++) {
         let x = Math.random() * mapw
         let y = Math.random() * 0.3333 * h
 
         let type = Math.floor(Math.random() * 3)
 
         let space = 5
-        switch(type){
+        switch (type) {
             case 0:
                 sky.push(
-                    [x,y],
-                    [x+space, y+space],
-                    [x-space, y+space],
-                    [x, y+2*space]
+                    [x, y],
+                    [x + space, y + space],
+                    [x - space, y + space],
+                    [x, y + 2 * space]
                 )
                 break;
             case 1:
@@ -132,7 +154,7 @@ let _initSky = () =>{
                 break;
             case 2:
                 sky.push(
-                    [x,y], [x -space, y+space], [x, y+space], [x+space, y+space], [x, y+2*space]
+                    [x, y], [x - space, y + space], [x, y + space], [x + space, y + space], [x, y + 2 * space]
                 )
         }
     }
@@ -140,7 +162,7 @@ let _initSky = () =>{
 
 //-----------------------------------------------Starting Page------------------------------------------------
 
-let initStarting = () =>{
+let initStarting = () => {
 
     bound = {
         uX: w,
@@ -153,9 +175,10 @@ let initStarting = () =>{
     _initStartGround()
     _initArrow()
     _initStartEnemy()
+    _initSky()
 }
 
-let _initStartHero = ()=>{
+let _initStartHero = () => {
     let group = new Group('hero', 100, 0.999, false)
 
     group.elements.push(
@@ -166,13 +189,13 @@ let _initStartHero = ()=>{
     hero = group.elements[0]
 }
 
-let _initStartGround = ()=>{
+let _initStartGround = () => {
     let group = new Group('ground', 0, 0, true)
     group.elements.push(
-        new Ground(0, 550, 150, h -550, 0, 0, 50),
-        new Ground(150, 400, 150, h -400, 0, 0, 50),
+        new Ground(0, 550, 150, h - 550, 0, 0, 50),
+        new Ground(150, 400, 150, h - 400, 0, 0, 50),
         new Ground(550, 550, 250, h - 340, 0, 0, 50),
-        new Ground(600, 400, 168, h-350, 0, 0, 50)
+        new Ground(600, 400, 168, h - 350, 0, 0, 50)
     )
 
     contact = new Contact('hero', 'ground', 1e8, 100)
@@ -181,10 +204,10 @@ let _initStartGround = ()=>{
     groups['ground'] = group
 }
 
-let _initStartEnemy = () =>{
+let _initStartEnemy = () => {
     let groupEnemy = new Group('enemy', 100, 0.99, false)
     groupEnemy.elements.push(
-        new Enemy(630, 300, 100, 100, 0, 0, 55, monsterSkin2, 30, 10,4)
+        new Enemy(630, 300, 100, 100, 0, 0, 55, monsterSkin2, 30, 10, 4)
     )
 
     groupEnemy.elements[0].face = -1

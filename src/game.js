@@ -58,6 +58,7 @@ let gaming = () => {
     drawArrow()
     drawHead()
     drawText()
+    drawCycle()
 
     for (let i = 0; i < demStepInPerFrame; i++) {
         demStep()
@@ -109,9 +110,11 @@ let heroTimeBack = () => {
     handleHeroTimeBack()
 
     if (controlKeys['z'] === false) {
-        running = gaming
-        stopReserverMusic()
-        playMusic()
+        if(hero.canBack){
+            running = gaming
+            stopReserverMusic()
+            playMusic()
+        }
     }
 
 }

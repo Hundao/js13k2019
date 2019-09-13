@@ -1,5 +1,6 @@
 
 
+// move ground first time
 events.push((i, force) => {
     if (!happend[i]) return
 
@@ -12,7 +13,7 @@ events.push((i, force) => {
 
 })
 
-
+// close boss
 events.push((i, force) => {
     if (!happend[i]) return
 
@@ -24,13 +25,15 @@ events.push((i, force) => {
     }
 })
 
+// init boss and fix view
 events.push((i, force) => {
     if (!happend[i]) return
 
     if (hero.pos[0] > 2340 || force) {
         fixed = true
         vx = 1955
-        save()
+
+        toolTextIndex = -1
 
         groupMove('boss', 0, 0, -200)
 
@@ -52,6 +55,8 @@ events.push((i, force) => {
 
 })
 
+
+//show tool tik
 events.push((i) => {
     let enm = groups['enemy'].elements.filter((e) => e.id === 3)
 
@@ -63,9 +68,26 @@ events.push((i) => {
             }, 3000)
         }
 
-        if (hero.pos[1] < 140 && toolTextIndex === 3) {
+    }
+
+    if (hero.pos[1] < 140 && toolTextIndex === 3) {
+        toolTextIndex = -1
+        happend[i] = false
+    }
+})
+
+let isSave = true
+events.push((i)=>{
+    if (happend[i]){
+        if(hero.pos[0] > 1910 && hero.pos[0] < 2000){
             toolTextIndex = -1
-            happend[i] = false
+            
+            if(isSave) {
+                save()
+                isSave = false
+            }
+
+            happend[i] =false
         }
     }
 })
@@ -112,11 +134,13 @@ let showBoss = () => {
 //----------------------- save and load function
 
 let save = () => {
-
+    console.log('save fixed', fixed)
     let snapshot = {
         happend,
         groups,
         vx,
+        bossActive,
+        fixed
     }
     globalSnapshot = JSON.stringify(snapshot)
 
@@ -137,8 +161,15 @@ let load = () => {
     groups = load.groups
     vx = load.vx
     happend = load.happend
+    bossActive = load.bossActive
+    fixed = load.fixed
     hero = load.groups['hero'].elements[0]
-
+    boss = load.groups['boss'].elements[0]
+    
+    boss.skill = {
+        canDestory: false,
+        canSummon: false
+    }
     groups['enemy'].elements.forEach((e)=>{
         e.canMove = true
     })

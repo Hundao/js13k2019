@@ -48,12 +48,14 @@ let handleEnemyMove = () => {
     let enemys = groups['enemy'].elements
 
     enemys.forEach((e) => {
+        let vel = enemyVeclocity *  (1 + cycler * 0.4)
         if (e.canMove) {
             let dis = distance(hero.pos, e.pos)
             if (dis < enemyView) {
                 let target = hero.pos[0] > e.pos[0] ? 1 : -1
                 e.face = target
-                e.f = plus(e.f, scale(3e12, [target, -10]))
+
+                e.f = plus(e.f, scale(vel, [target, -10]))
 
                 e.canMove = false
                 setTimeout(() => e.canMove = true, 100)
@@ -112,8 +114,10 @@ let handleControl = () => {
     }
 
     if (controlKeys['z']) {
-        stopMusic()
-        playReserverMusic()
+        if(hero.canBack){
+            stopMusic()
+            playReserverMusic()
+        }
     }
 }
 
@@ -122,18 +126,48 @@ let handleShooting = () => {
         let v = scale(bowForce, [hero.face, -0.1])
 
         playShootMusic()
-        groups['arrow'].elements.push(
-            new Arrow(
-                hero.pos[0],
-                hero.pos[1],
-                10,
-                10,
-                v[0],
-                v[1],
-                200,
-                hero.face
+
+        if(cycler > 1){
+            groups['arrow'].elements.push(
+                new Arrow(
+                    hero.pos[0],
+                    hero.pos[1] -4,
+                    10,
+                    10,
+                    v[0],
+                    v[1],
+                    200,
+                    hero.face
+                )
             )
-        )
+
+            groups['arrow'].elements.push(
+                new Arrow(
+                    hero.pos[0],
+                    hero.pos[1] + 6,
+                    10,
+                    10,
+                    v[0],
+                    v[1],
+                    200,
+                    hero.face
+                )
+            ) 
+        }
+        else{
+            groups['arrow'].elements.push(
+                new Arrow(
+                    hero.pos[0],
+                    hero.pos[1],
+                    10,
+                    10,
+                    v[0],
+                    v[1],
+                    200,
+                    hero.face
+                )
+            )
+        }
 
         bowForce = 100
         shooting = false
@@ -175,8 +209,11 @@ handleBossActive = () =>{
         let number = Math.floor(Math.random() * 3) + 1
 
         let enemys = groups['enemy'].elements
+        let hp = 100 * (1 + cycler * 0.4)
+        let atk = 12 * (1 + cycler * 0.4)
+
         for(let i = 0; i < number ; i++){
-            enemys.push(new Enemy(2530 + i * 100, 400, 100, 100, 0, 0, 55, monsterSkin2, 150, 12, 10))
+            enemys.push(new Enemy(2530 + i * 100, 400, 100, 100, 0, 0, 55, monsterSkin2, hp, atk, 10))
         }
 
 
@@ -208,12 +245,12 @@ let handleEnemyDie = () =>{
                 setTimeout(()=>{
                     winCap = i * 0.01
                 }, i* 50)
-    
-                setTimeout(()=>{
-                    initGaming()
-                    running = gaming
-                }, 5000)
             }
+            setTimeout(()=>{
+                cycler++
+                initGaming()
+                running = gaming
+            }, 5000)
         }
     }
 }

@@ -34,6 +34,9 @@ let demStep = () => {
     resetForce()
 }
 
+let disMax = 0.5
+let disMin = -0.5
+
 let verlet = () => {
     for (let key in groups) {
         let group = groups[key]
@@ -50,6 +53,18 @@ let verlet = () => {
             e.v[1] += (e.f[1] * e.invm + gravity * e.mass) * dmpInfluence * dt
 
             let dis = scale(dt, e.v)
+
+            if(dis[0] > disMax){
+                dis[0] = disMax
+            }else if(dis[0] < disMin){
+                dis[0] = disMin
+            }
+
+            if(dis[1] > disMax){
+                dis[1] = disMax
+            } else if(dis[1] < disMin){
+                dis[1] = disMin
+            }
 
             if (e.lt[0] + dis[0] > bound.lX && e.rd[0] + dis[0] < bound.uX) {
                 e.pos[0] += dis[0]

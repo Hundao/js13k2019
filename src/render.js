@@ -120,6 +120,7 @@ let drawBoss = () => {
     let hpLen = 130
     let percent = boss.hp / boss.maxHp * hpLen
 
+    if(boss.hp < 0) percent = 0
     ctx.fillStyle = '#121211'
     ctx.fillRect(boss.lt[0] - vx + 20, boss.lt[1] - 40, hpLen, 10)
 
@@ -281,7 +282,14 @@ let drawDie = () => {
 }
 
 let drawCycle = () => {
+    if(cycler > 1){
+        ctx.fillStyle= 'rgb(125, 85, 85, 0.8)'
+        ctx.fillRect(570, 10, 200, 40)
 
+        ctx.fillStyle = '#bd9d9d'
+        ctx.font = "bold 18pt Arial";
+        ctx.fillText(`${cycler} New Game +`, 580, 40)
+    }
 }
 
 
@@ -299,7 +307,7 @@ let drawTitle = () => {
 
 let drawText = () => {
 
-    if(toolTextIndex > 0){
+    if(toolTextIndex >= 0){
         ctx.fillStyle = '#34ebd2'
         ctx.font = "20px Arial";
         let text = toolText[toolTextIndex]
