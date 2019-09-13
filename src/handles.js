@@ -2,6 +2,8 @@ let handleArrowContact = () => {
 
     let dead = {}
 
+    let deadRock = {}
+
     //handle with group
 
     for (let key in difGupContacts['arrow-ground'].contactPlanes) {
@@ -35,9 +37,23 @@ let handleArrowContact = () => {
     })
 
 
+
     groups['arrow'].elements = groups['arrow'].elements.filter((e, i) => {
         return (!dead[i])
     })
+
+    if(groups['rock']){
+        groups['rock'].elements.forEach((e,i )=>{
+            if (e.lt[1] <= bound.lY + 1 || e.rd[1] >= bound.uY - 1) {
+                console.log('rock dead')
+                deadRock[i] = true
+            }
+        })
+    
+        groups['rock'].elements = groups['rock'].elements.filter((e, i) => {
+            return (!deadRock[i])
+        })
+    }
 
     difGupContacts['arrow-ground'].contactPlanes = {}
     difGupContacts['arrow-enemy'].contactPlanes = {}
@@ -239,33 +255,35 @@ handleBossActive = () => {
         boss.skill.canDestory = false
 
         let m = Math.floor(Math.random() * 4)
-
         switch (m) {
             case 0:
                 groups['rock'].elements.push(
-                    new Rectangle(2700, 0, 20, h, -30, 0, 200)
+                    new Rectangle(2700, 2, 20, h -2, -30, 0, 200)
                 )
                 break;
             case 1:
                 groups['rock'].elements.push(
-                    new Rectangle(1800, 0, 20, h, 30, 0, 200)
+                    new Rectangle(1800, 2, 20, h - 2, 30, 0, 200)
                 )
                 break;
             case 2:
                 if (cycler >= 3) {
+                    console.log('create a new row down')
                     groups['rock'].elements.push(
-                        new Rectangle(1800, 0, 1200, 20, 0, 20, 200)
+                        new Rectangle(1800, 2, 1200, 20, 0, 15, 200)
                     )
                 }
                 else {
+                    console.log('create a new row up')
                     groups['rock'].elements.push(
-                        new Rectangle(1800, 680, 1200, 20, 0, -20, 200)
+                        new Rectangle(1800, 678, 1200, 20, 0, -15, 200)
                     )
                 }
                 break;
             case 3:
+                    console.log('create a new row up')
                 groups['rock'].elements.push(
-                    new Rectangle(1800, 680, 1200, 20, 0, -20, 200)
+                    new Rectangle(1800, 678, 1200, 20, 0, -20, 200)
                 )
                 break;
         }

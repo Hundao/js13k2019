@@ -311,10 +311,12 @@ let drawCycle = () => {
 let drawTitle = () => {
     let e = {
         face: 1,
-        lt: [100, 50]
+        lt: [90, 50]
     }
+    ctx.fillStyle = 'rgb(255, 255, 255, 0.3)'
+    ctx.fillRect(50, 30, 668, 200)
 
-    renderSkin(e, titleSkin, 13, 13)
+    renderSkin(e, titleSkin, 10, 10)
 }
 
 
